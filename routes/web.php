@@ -70,8 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::put('updatedatatahunajaran/{tahunajaran}',[AdminController::class,'updateDatatahunAjaran'])->name('update_data_tahun_ajaran');
     Route::delete('deletedatatahunajaran/{tahunajaran}',[AdminController::class,'destroyDataTahunAjaran'])->name('destroy_data_tahun_ajaran');
 
-    
-    Route::get('datakelas',[AdminController::class,'indexKelas'])->name('index_data_kelas');
+
+    Route::get('datakelas',[AdminController::class,'indexDataKelas'])->name('index_data_kelas');
     Route::get('tambahdatakelas',[AdminController::class,'createDataKelas'])->name('create_data_kelas');
     Route::post('storedatakelas',[AdminController::class,'storeDataKelas'])->name('store_data_kelas');
     Route::get('editdatakelas/{kelas}',[AdminController::class,'editDataKelas'])->name('edit_data_kelas');

@@ -20,7 +20,7 @@
         </div>
 
         <div class="card-body">
-            <a href="btn btn-success mb-3 float-right">Tambah Kelas</a>
+            <a href="{{route('create_data_kelas')}}" class="btn btn-success float-right mb-3">Tambah Data Kelas</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -32,15 +32,18 @@
                     </thead>
 
                     <tbody>
+
+                    @foreach ($data_kelas as $kelas)
                         <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
+                            <td>{{$kelas->id_kelas}}</td>
+                            <td>{{$kelas->kelas}}</td>
                             <td>
                                 <a href="#" class="btn btn-warning">Edit</a>
                                 <br>
                                 <button href="#" class="btn btn-danger mt-3">Hapus</button>
                             </td>
                         </tr>
+                    @endforeach
                     </tbody>
 
             </div>

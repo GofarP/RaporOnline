@@ -26,10 +26,10 @@
 
 
                 <div class="mb-3">
-                    <label for="nama" class="mt-3 mb-2">Nama Kelas:</label>
-                    <input type="text" name="nama" id="nama" placeholder="Masukkan Nama Kelas"  data-parsley-required="true"
-                        class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
-                        @error('nama')
+                    <label for="kelas" class="mt-3 mb-2">Nama Kelas:</label>
+                    <input type="text" name="kelas" id="Kelas" placeholder="Masukkan Kelas"  data-parsley-required="true"
+                        class="form-control @error('kelas') is-invalid @enderror" value="{{ old('kelas') }}">
+                        @error('kelas')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

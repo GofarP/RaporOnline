@@ -127,8 +127,8 @@
                     <div id="collapseKelas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Data Kelas:</h6>
-                            <a class="collapse-item" href="buttons.html">Lihat Kelas</a>
-                            <a class="collapse-item" href="cards.html">Tambah Kelas</a>
+                            <a class="collapse-item" href="{{route('index_data_kelas')}}">Lihat Kelas</a>
+                            <a class="collapse-item" href="{{route('create_data_kelas')}}">Tambah Kelas</a>
                         </div>
                     </div>
                 </li>

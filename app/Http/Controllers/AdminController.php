@@ -6,6 +6,7 @@ use Agama;
 use JenisKelamin;
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
@@ -16,10 +17,11 @@ use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\DataGuruRequest;
 use App\Http\Requests\DataMapelRequest;
 use App\Http\Requests\DataSiswaRequest;
+use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\TahunAjaranRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
-use App\Http\Requests\TahunAjaranRequest;
 
 class AdminController extends Controller
 {
@@ -389,7 +391,7 @@ class AdminController extends Controller
         return redirect()->route('index_data_mata_pelajaran')->with('success',"Sukses Menghapus Mata Pelajaran");
     }
 
-    
+
     //Tahun Ajaran
     public function indexDataTahunAjaran()
     {
@@ -406,12 +408,12 @@ class AdminController extends Controller
     public function storeDataTahunAjaran(TahunAjaranRequest $request)
     {
         $data_tahun_ajaran=$request->all();
-        
+
         if($data_tahun_ajaran["tahun_awal"]>$data_tahun_ajaran["tahun_akhir"])
         {
             return back()->with('rentang_tahun_error',"Tahun Awal Harus Lebih Kecil Daripada Tahun Akhir");
         }
-        
+
 
         $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
         TahunAjaran::create($data);
@@ -429,7 +431,7 @@ class AdminController extends Controller
 
     public function updateDataTahunAjaran(Request $request, TahunAjaran $tahunajaran)
     {
-    
+
         $data_tahun_ajaran=$request->all();
 
         $request->validate([
@@ -446,7 +448,7 @@ class AdminController extends Controller
         {
             return back()->with('rentang_tahun_error',"Tahun Awal Harus Lebih Kecil Daripada Tahun Akhir");
         }
-        
+
         $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
         TahunAjaran::create($data);
 
@@ -463,5 +465,58 @@ class AdminController extends Controller
 
          return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menghapus Tahun Ajaran');
     }
+
+
+    public function indexDataKelas()
+    {
+        $data_kelas=Kelas::all();
+        return view ('admin.DataKelas.index',['data_kelas'=>$data_kelas]);
+    }
+
+
+    public function createDataKelas()
+    {
+        return view('admin.DataKelas.tambah');
+    }
+
+
+    public function storeDataKelas(KelasRequest $request)
+    {
+        $data_kelas = $request->all();
+
+        Kelas::create($data_kelas);
+
+        return redirect()->route('index_data_kelas')->with('success','Sukses Menambah Kelas');
+
+    }
+
+
+    public function editDataKelas(Kelas $kelas)
+    {
+        return view ('admin.DataKelas.edit',['data_kelas'=>$kelas]);
+    }
+
+
+    public function updateDataKelas(Request $request,Kelas $kelas)
+    {
+        $request->validate([
+            'kelas' => 'required|unique:kelas,kelas,'. $kelas->id_kelas.',id_kelas',
+        ],[
+            'kelas.required'=>"Silahkan Masukkan Kelas Yang Ingin Ditambahkan",
+            'kelas.unique'=>'Kelas Ini Sudah Ditambahkan',
+        ]);
+
+        $data_kelas=$request->except(['_token','_method']);
+
+        Kelas::where('id_kelas','=',$kelas->id_kelas)->update($data_kelas);
+
+    }
+
+
+    public function deleteDataKelas(Kelas $kelas)
+    {
+        Kelas::where('id_kelas','=',$kelas->id_kelas)->delete();
+    }
+
 
 }
