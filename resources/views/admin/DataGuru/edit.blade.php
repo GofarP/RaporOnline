@@ -27,7 +27,7 @@
                 <div class="mb-3">
                     <label for="nip" class="mt-3 mb-2">NIP Guru:</label>
                     <input type="text" name="nip" id="nip" placeholder="Masukkan NIP Guru"  data-parsley-required="true"
-                        class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip') }}">
+                        class="form-control @error('nip') is-invalid @enderror" value="{{ old('nip',$data_guru->nip) }}">
                         @error('nip')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -39,7 +39,7 @@
                 <div class="mb-3">
                     <label for="nama" class="mt-3 mb-2">Nama Guru:</label>
                     <input type="text" name="nama" id="nama" placeholder="Masukkan nama Guru"  data-parsley-required="true"
-                        class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
+                        class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama',$data_guru->nama) }}">
                         @error('nama')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -50,12 +50,12 @@
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Guru:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
-                        <option value="Islam">Islam</option>
-                        <option value="Protestan">Protestan</option>
-                        <option value="Katholik">Katholik</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Buddha">Buddha</option>
-                        <option value="Konghucu">Konghucu</option>
+                        <option value="{{$data_guru->agama == "Islam" ? 'selected' : ''}}">Islam</option>
+                        <option value="{{$data_guru->agama == "Protestan" ? 'selected' : ''}}">Protestan</option>
+                        <option value="{{$data_guru->agama == "Katolik" ? 'selected' : ''}}">Katolik</option>
+                        <option value="{{$data_guru->agama == "Hindu" ? 'selected' : ''}}">Hindu</option>
+                        <option value="{{$data_guru->agama == "Buddha" ? 'selected' : ''}}">Buddha</option>
+                        <option value="{{$data_guru->agama == "Konghucu" ? 'selected' : ''}}">Konghucu</option>
                     </select>
                         @error('agama')
                             <div class="invalid-feedback">
@@ -67,8 +67,8 @@
                 <div class="mb-3">
                     <label for="jenis_kelamin" class="mt-3 mb-2">Jenis Kelamin:</label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" id="jenis_kelamin">
-                        <option value="Laki-Laki">Laki-Laki</option>
-                        <option value="Perempuan">Perempuan</option>
+                        <option value="{{$data_guru->jenis_kelamin == "Pria" ? 'selected' : ''}}">Pria</option>
+                        <option value="{{$data_guru->jenis_kelamin == "Wanita" ? 'selected' : ''}}">Wanita</option>
                     </select>
                         @error('jenis_kelamin')
                             <div class="invalid-feedback">
@@ -81,7 +81,7 @@
                 <div class="mb-3">
                     <label for="alamat" class="mt-3 mb-2">Alamat Guru:</label>
                     <input type="text" name="alamat" id="alamat" placeholder="Masukkan Alamat Guru"  data-parsley-required="true"
-                        class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}">
+                        class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat',$data_guru->alamat) }}">
                         @error('alamat')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -93,7 +93,7 @@
                 <div class="mb-3">
                     <label for="pedidikan_terakhir" class="mt-3 mb-2">Pendidikan Terakhir:</label>
                     <input type="text" name="pendidikan_terakhir" id="alamat" placeholder="Masukkan Pendidikan Terakhir Guru"  data-parsley-required="true"
-                        class="form-control @error('pendidikan_terakhir') is-invalid @enderror" value="{{ old('pendidikan_terakhir') }}">
+                        class="form-control @error('pendidikan_terakhir') is-invalid @enderror" value="{{ old('pendidikan_terakhir',$data_guru->pendidikan_terakhir) }}">
                         @error('pendidikan_terakhir')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -105,7 +105,7 @@
                 <div class="mb-3">
                     <label for="tempat_lahir" class="mt-3 mb-2">Tempat Lahir:</label>
                     <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Masukkan Tempat Lahir Guru"  data-parsley-required="true"
-                        class="form-control @error('tempat_lahir') is-invalid @enderror" value="{{ old('tempat_lahir') }}">
+                        class="form-control @error('tempat_lahir') is-invalid @enderror" value="{{ old('tempat_lahir',$data_guru->tempat_lahir) }}">
                         @error('tempat_lahir')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -118,7 +118,7 @@
 
                     <label for="tanggal_lahir" class="mt-3 mb-2">Tanggal Lahir:</label>
                     <input type="text" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror"
-                    value="{{old('tanggal_lahir')}}" placeholder="Tanggal-Bulan-Tahun" readOnly="true">
+                    value="{{old('tanggal_lahir',$data_guru->tanggal_lahir)}}" placeholder="Tanggal-Bulan-Tahun" readOnly="true">
                     <span class="input-group-append">
                         <span class="input-group-text text-white bg-success d-block" id="btn_tanggal_lahir">
                             <i class="fa fa-calendar"></i>
@@ -136,7 +136,12 @@
                         <label for="alamat" class="mt-3 mb-2">Foto Guru:</label>
                         <input type="file" name="foto" id="foto"
                         class="form-control-file @error('foto') is-invalid @enderror" onchange="previewImage()">
-                    <img class="img-preview img-fluid mt-3 mb-3 col-sm-5" style="width:25%;height:25%">
+                        @if($data_guru->foto)
+                            <img src="{{ asset('storage/' . $data_guru->foto) }}"
+                            class="img-preview img-fluid mt-3 mb-3 col-sm-5 " style="width:25%;height:25%">
+                        @else
+                            <img class="img-preview img-fluid mt-3 mb-3 col-sm-5" style="width:25%;height:25%">
+                        @endif
                     @error('foto')
                         <div class="invalid-feedback">
                             {{ $message }}

@@ -48,7 +48,12 @@
                             <td>
                                 <a href="#" class="btn btn-warning">Edit</a>
                                 <br>
+                                <form action="{{route('destroy_',$kred->id_users)}}" method="POST"
+                                    class="d-inline" id="form-delete-kredensial">
+                                    @csrf
+                                    @method("DELETE")
                                 <button href="#" class="btn btn-danger mt-3">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
@@ -59,6 +64,28 @@
     @endsection
 
     @extends('partials.footer.javascript')
+
+    <script>
+          $(function(){
+
+            @if(Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Operasi Sukses',
+                    text: '{{ Session::get("success") }}'
+                })
+
+            @elseif(Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Operasi Gagal',
+                text: '{{ Session::get("error") }}'
+                })
+
+            @endif
+        });
+
+    </script>
 
 </body>
 </html>

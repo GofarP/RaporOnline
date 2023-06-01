@@ -69,7 +69,7 @@
                     <label for="jenis_kelamin" class="mt-3 mb-2">Jenis Kelamin:</label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" id="jenis_kelamin">
                         <option value="{{$siswa->jenis_kelamin == "Pria" ? 'selected' : ''}}">Pria</option>
-                        <option value="{{$siswa->jenis_kelamin == "Wanita" ? 'selected' : ''}}">Pria</option>
+                        <option value="{{$siswa->jenis_kelamin == "Wanita" ? 'selected' : ''}}">Wanita</option>
                     </select>
                         @error('jenis_kelamin')
                             <div class="invalid-feedback">

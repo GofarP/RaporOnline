@@ -8,6 +8,8 @@
     @endsection
 
     <script src="{{url('/bs/js/jquery.min.js')}}"></script>
+
+
 </head>
 <body>
 @extends('partials.sidebar.sidebar')
@@ -151,27 +153,21 @@
 
 
         $(function() {
-            $('#tanggal_lahir').datepicker({
-                format: 'dd-mm-yyyy'
-            });
+            $('#datepicker_tahun_awal').datepicker({
+                    format: 'yyyy',
+                    viewMode: "years",
+                    minViewMode: "years"
+                });
+
+                $('#datepickertahun_akhir').datepicker({
+                    format: 'yyyy',
+                    viewMode: "years",
+                    minViewMode: "years"
+                });
         });
-
-        function previewImage()
-            {
-                    const image = document.querySelector('#foto');
-                    const imgPreview = document.querySelector('.img-preview');
-
-                    imgPreview.style.display = "block";
-
-                    const oFReader = new FileReader();
-                    oFReader.readAsDataURL(image.files[0]);
-
-                    oFReader.onload = function(oFREvent) {
-                        imgPreview.src = oFREvent.target.result;
-                    }
-            }
 
     </script>
 
+   
 </body>
 </html>

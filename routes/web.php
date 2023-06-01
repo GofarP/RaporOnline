@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('dataguru',[AdminController::class,'indexDataGuru'])->name('index_data_guru');
     Route::get('tambahdataguru',[AdminController::class,'createDataGuru'])->name('create_data_guru');
     Route::post('storedataguru',[AdminController::class,'storeDataGuru'])->name('store_data_guru');
-    Route::get('editdataguru',[AdminController::class,'editDataGuru'])->name('edit_data_guru');
+    Route::get('editdataguru/{guru}',[AdminController::class,'editDataGuru'])->name('edit_data_guru');
 
     Route::get('kredensialguru',[AdminController::class,'indexKredensialGuru'])->name('index_kredensial_guru');
     Route::get('tambahkredensialguru',[AdminController::class,'createKredensialGuru'])->name('create_kredensial_guru');
@@ -58,7 +58,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
 
     Route::get('datamatapelajaran',[AdminController::class,'indexdataMataPelajaran'])->name('index_data_mata_pelajaran');
     Route::get('tambahdatamatapelajaran',[AdminController::class,'createDataMataPelajaran'])->name('create_data_mata_pelajaran');
-    Route::get('editdatamatapelajaran',[AdminController::class,'editDataSiswaa'])->name('edit_data_mata_pelajaran');
+    Route::post('storedatamatapelajaran',[AdminController::class,'storedataMataPelajaran'])->name('store_data_mata_pelajaran');
+    Route::get('editdatamatapelajaran/{matapelajaran}',[AdminController::class,'editDataMataPelajaran'])->name('edit_data_mata_pelajaran');
+    Route::put('updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
+    Route::delete('deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
+
+    Route::get('datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
+    Route::get('tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
+    Route::post('storedatatahunajaran',[AdminController::class,'storeDataTahunAjaran'])->name('store_data_tahun_ajaran');
+    Route::get('editdatatahunajaran/{tahunajaran}',[AdminController::class,'editDatatahunAjaran'])->name('edit_data_tahun_ajaran');
+    Route::put('updatedatatahunajaran/{tahunajaran}',[AdminController::class,'updateDatatahunAjaran'])->name('update_data_tahun_ajaran');
+    Route::delete('deletedatatahunajaran/{tahunajaran}',[AdminController::class,'destroyDataTahunAjaran'])->name('destroy_data_tahun_ajaran');
+
+    
+    Route::get('datakelas',[AdminController::class,'indexKelas'])->name('index_data_kelas');
+    Route::get('tambahdatakelas',[AdminController::class,'createDataKelas'])->name('create_data_kelas');
+    Route::post('storedatakelas',[AdminController::class,'storeDataKelas'])->name('store_data_kelas');
+    Route::get('editdatakelas/{kelas}',[AdminController::class,'editDataKelas'])->name('edit_data_kelas');
+    Route::put('updatedatakelas/{kelas}',[AdminController::class,'updateDataKelas'])->name('update_data_kelas');
+    Route::delete('deletedatakelas/{kelas}',[AdminController::class,'deleteDataKelas'])->name('destroy_data_kelas');
+
 
     Route::get('datanilaisiswa',[AdminController::class,'indexDataNilaiSiswa'])->name('index_data_nilai_siswa');
     Route::get('tambahdatanilaisiswa',[AdminController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');

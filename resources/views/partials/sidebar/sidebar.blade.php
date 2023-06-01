@@ -100,6 +100,40 @@
                 </li>
 
 
+                  <!-- Tahun Ajaran -->
+                  <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTahunAjaran"
+                        aria-expanded="true" aria-controls="collapseTahunAjaran">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Tahun Ajaran</span>
+                    </a>
+                    <div id="collapseTahunAjaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Tahun Ajaran:</h6>
+                            <a class="collapse-item" href="{{route('index_data_tahun_ajaran')}}">Lihat Tahun Ajaran</a>
+                            <a class="collapse-item" href="{{route('create_data_tahun_ajaran')}}">Tambah Tahun Ajaran</a>
+                        </div>
+                    </div>
+                </li>
+
+
+                <!-- Kelas -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKelas"
+                        aria-expanded="true" aria-controls="collapseKelas">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Kelas</span>
+                    </a>
+                    <div id="collapseKelas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Data Kelas:</h6>
+                            <a class="collapse-item" href="buttons.html">Lihat Kelas</a>
+                            <a class="collapse-item" href="cards.html">Tambah Kelas</a>
+                        </div>
+                    </div>
+                </li>
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">

@@ -11,6 +11,8 @@ class Guru extends Model
 
     protected $primaryKey = 'nip';
 
+    public $incrementing=false;
+
     protected $table='guru';
 
     protected $guarded=[];

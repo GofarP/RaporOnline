@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Agama;
+use JenisKelamin;
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Siswa;
+use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaran;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\DataGuruRequest;
+use App\Http\Requests\DataMapelRequest;
 use App\Http\Requests\DataSiswaRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
-use App\Models\Siswa;
+use App\Http\Requests\TahunAjaranRequest;
 
 class AdminController extends Controller
 {
@@ -19,7 +27,8 @@ class AdminController extends Controller
     //Data Guru
     public function indexDataGuru()
     {
-        return view('admin.DataGuru.index');
+        $data_guru=Guru::all();
+        return view('admin.DataGuru.index',['data_guru'=>$data_guru]);
     }
 
     public function createDataGuru()
@@ -40,19 +49,64 @@ class AdminController extends Controller
 
     }
 
-    public function editDataGuru()
+    public function editDataGuru(Guru $guru)
     {
-        return view('admin.guru.edit');
+        return view('admin.DataGuru.edit',['data_guru'=>$guru]);
     }
 
-    public function updateDataGuru()
+    public function updateDataGuru(Request $request, Guru $guru)
     {
-        //
+        $request->validate([
+            "nip"=>"required|numeric|unique:guru,nip,'. $guru->nip.',nip'",
+            "nama"=>"required|max:255",
+            "agama"=>['required',new Enum(Agama::class)],
+            "tempat_lahir"=>"required|string|max:255",
+            'tanggal_lahir'=>'required|date_format:"d-m-Y"',
+            'jenis_kelamin'=>['required',new Enum(JenisKelamin::class)],
+            'alamat'=>'required|string|max:255',
+            'foto'=>'required|image|file|mimes:jpeg,jpg|max:500',
+            'pendidikan_terakhir'=>'required|string|max:255'
+        ],[
+            'nip.required'=>"Silahkan Isi NIP Guru",
+            'nip.unique'=>"Pengguna Dengan NIP Ini Sudah Ditambahkan",
+            'nip.numeric'=>"NIP Harus Menggunakan Angka",
+            'nama.required'=>"Silahkan Isi Nama Guru",
+            'agama.required'=>"Silahkan Isi Agama Guru",
+            'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
+            'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Guru",
+            'tanggal_lahir.required'=>"Silahkan Isi Tanggal Lahir Guru",
+            'tanggal_lahir.date_format'=>"Format Tanggal Lahir Tidak Valid",
+            'jenis_kelamin.required'=>"Silahkan Isi Jenis Kelamin Guru",
+            'jenis_kelamin.Illuminate\Validation\Rules\Enum'=>"Pilihan Jenis Kelamin Tidak Valid",
+            'alamat.required'=>'Silahkan Isi Alamat Guru',
+            'foto.required'=>"Silahkan Pilih Foto Guru",
+            'foto.image'=>'File Yang Diupload Harus Merupakan Gambar/Foto',
+            'foto.uploaded'=>'Ukuran Gambar Yang Diupload Maksimal 500KB',
+            'pendidikan_terakhir.required'=>'Silahkan Isi Pendidikan Terakhir'
+        ]);
+
+        $data_guru=$request->except(['_token','_method']);
+
+        if($request->file('foto'))
+        {
+            Storage::disk('public')->delete($guru->foto);
+            $data_guru['foto']=$request->file('picture_path')->store('assets/guru','public');
+        }
+
+        Guru::where('nip',$guru->nip)->update($data_guru);
+        return redirect()->route('index_data_guru')->with('success','Sukses Mengubah Data Guru');;
+
+
+
     }
 
-    public function destroyDataGuru()
+    public function destroyDataGuru(Guru $guru)
     {
-        //
+        Storage::disk('public')->delete($guru->foto);
+
+        Guru::where('nip',$guru->nip)->delete();
+
+        return redirect()->route('index_data_guru')->with('success',"Sukses Menghapus Data Guru");;
     }
 
 
@@ -156,9 +210,47 @@ class AdminController extends Controller
         return view('admin.DataSiswa.edit',['siswa' => $siswa]);
     }
 
-    public function updateDataSiswa()
+    public function updateDataSiswa(Request $request, Siswa $siswa)
     {
-        //
+        $request->validate([
+            "nip"=>"required|numeric|unique:siswa,nisn,'. $siswa->nisn.',nisn'",
+            "nama"=>"required|max:255",
+            "agama"=>['required',new Enum(Agama::class)],
+            "tempat_lahir"=>"required|string|max:255",
+            'tanggal_lahir'=>'required|date_format:"d-m-Y"',
+            'jenis_kelamin'=>['required',new Enum(JenisKelamin::class)],
+            'alamat'=>'required|string|max:255',
+            'foto'=>'required|image|file|mimes:jpeg,jpg|max:500',
+        ],[
+            'nip.required'=>"Silahkan Isi NIP Guru",
+            'nip.unique'=>"Pengguna Dengan NIP Ini Sudah Ditambahkan",
+            'nip.numeric'=>"NIP Harus Menggunakan Angka",
+            'nama.required'=>"Silahkan Isi Nama Guru",
+            'agama.required'=>"Silahkan Isi Agama Guru",
+            'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
+            'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Guru",
+            'tanggal_lahir.required'=>"Silahkan Isi Tanggal Lahir Guru",
+            'tanggal_lahir.date_format'=>"Format Tanggal Lahir Tidak Valid",
+            'jenis_kelamin.required'=>"Silahkan Isi Jenis Kelamin Guru",
+            'jenis_kelamin.Illuminate\Validation\Rules\Enum'=>"Pilihan Jenis Kelamin Tidak Valid",
+            'alamat.required'=>'Silahkan Isi Alamat Guru',
+            'foto.required'=>"Silahkan Pilih Foto Guru",
+            'foto.image'=>'File Yang Diupload Harus Merupakan Gambar/Foto',
+            'foto.uploaded'=>'Ukuran Gambar Yang Diupload Maksimal 500KB',
+        ]);
+
+        $data_siswa=$request->except(['_token','_method']);
+
+        if($request->file('foto'))
+        {
+            Storage::disk('public')->delete($siswa->foto);
+            $data_guru['foto']=$request->file('picture_path')->store('assets/siswa','public');
+        }
+
+        Siswa::where('nisn',$siswa->nip)->update($data_siswa);
+        return redirect()->route('index_data_siswa')->with('success','Sukses Mengubah Data Siswa');;
+
+
     }
 
 
@@ -239,13 +331,11 @@ class AdminController extends Controller
     }
 
 
-
-
-
     //MAta Pelajaran
     public function indexDataMataPelajaran()
     {
-        return view('admin.DataMapel.index');
+        $data_mapel=MataPelajaran::all();
+        return view('admin.DataMapel.index',['mata_pelajaran'=>$data_mapel]);
     }
 
     public function createDataMataPelajaran()
@@ -253,67 +343,125 @@ class AdminController extends Controller
         return view('admin.DataMapel.tambah');
     }
 
-    public function storeDataMataPelajaran()
+    public function storeDataMataPelajaran(DataMapelRequest $request)
     {
+        $data_mapel=$request->all();
+
+        MataPelajaran::create($data_mapel);
+
+        return redirect()->route('index_data_mata_pelajaran')->with('success',"Sukses Menambah Data Mata Pelajaran Baru");
 
     }
 
 
-    public function editDataMataPelajaran()
+    public function editDataMataPelajaran(MataPelajaran $matapelajaran)
     {
+        return view('admin.DataMapel.edit',['mataPelajaran'=>$matapelajaran]);
+    }
+
+
+    public function updateDataMataPelajaran(Request $request,MataPelajaran $matapelajaran)
+    {
+        $request->validate([
+            'nama' => 'required|string|unique:mata_pelajaran,nama,'. $matapelajaran->id_mapel.',id_mapel',
+
+        ],[
+            'nama.required'=>"Silahkan Masukkan Nama Mata Pelajaran",
+            'nama.string'=>'Nama Pelajaran Tidak Boleh Menggunakan Angka',
+            'nama.unique'=>'Pelajaran Ini Telah Didaftarkan Sebelumnya'
+        ]);
+
+        $data_mapel=$request->except(['_token','_method']);
+
+        MataPelajaran::where('id_mapel','=',$matapelajaran->id_mapel)
+        ->update($data_mapel);
+
+        return redirect()->route('index_data_mata_pelajaran')->with('success',"Sukses Mengubah Data Mata Pelajaran Baru");
 
     }
 
 
-    public function updateDataMataPelajaran()
+    public function destroyDataMataPelajaran(MataPelajaran $matapelajaran)
     {
+        MataPelajaran::where('id_mapel','=',$matapelajaran->id_mapel)
+        ->delete();
 
+        return redirect()->route('index_data_mata_pelajaran')->with('success',"Sukses Menghapus Mata Pelajaran");
     }
 
-
-    public function destroyDataMataPelajaran()
-    {
-
-    }
-
-
-
-
-
+    
     //Tahun Ajaran
     public function indexDataTahunAjaran()
     {
+        $data_tahun_ajaran=TahunAjaran::all();
 
+        return view('admin.DataTahunAjaran.index',['tahun_ajaran'=>$data_tahun_ajaran]);
     }
 
     public function createDataTahunAjaran()
     {
-
+        return view('admin.DataTahunAjaran.tambah');
     }
 
-    public function storeDataTahunAjaran()
+    public function storeDataTahunAjaran(TahunAjaranRequest $request)
     {
+        $data_tahun_ajaran=$request->all();
+        
+        if($data_tahun_ajaran["tahun_awal"]>$data_tahun_ajaran["tahun_akhir"])
+        {
+            return back()->with('rentang_tahun_error',"Tahun Awal Harus Lebih Kecil Daripada Tahun Akhir");
+        }
+        
+
+        $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
+        TahunAjaran::create($data);
+
+        return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menambahkan Tahun Ajaran');
 
     }
 
 
-    public function editDataTahunAjaran()
+    public function editDataTahunAjaran(TahunAjaran $tahunajaran)
     {
-
+        return view('admin.DataTahunAjaran.edit',['tahun_ajaran'=>$tahunajaran]);
     }
 
 
-    public function updateDataTahunAjaran()
+    public function updateDataTahunAjaran(Request $request, TahunAjaran $tahunajaran)
     {
+    
+        $data_tahun_ajaran=$request->all();
+
+        $request->validate([
+            'tahun_awal'=>'required|numeric',
+            'tahun_akhir'=>'required|numeric'
+        ],[
+            'tahun_awal.required'=>'Silahkan Masukkan Tahun Awal Ajaran',
+            'tahun_awal.numeric'=>'Tahun Awal Ajaran Harus Berupa Angka',
+            'tahun_akhir.required'=>'Silahkan Masukkan Tahun Akhir Ajaran',
+            'tahun_akhir.numeric'=>'Tahun Akhir Ajaran Harus Berupa Angka',
+        ]);
+
+        if($data_tahun_ajaran["tahun_awal"]>$data_tahun_ajaran["tahun_akhir"])
+        {
+            return back()->with('rentang_tahun_error',"Tahun Awal Harus Lebih Kecil Daripada Tahun Akhir");
+        }
+        
+        $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
+        TahunAjaran::create($data);
+
+        return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menambahkan Tahun Ajaran');
+
+
 
     }
 
 
-    public function destroyDataTahunAjaran()
+    public function destroyDataTahunAjaran(TahunAjaran $tahunajaran)
     {
+        TahunAjaran::where('id_tahun_ajaran','=',$tahunajaran->id_tahun_ajaran)->delete();
 
+         return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menghapus Tahun Ajaran');
     }
-
-
 
 }

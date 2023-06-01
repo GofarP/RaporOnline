@@ -40,21 +40,28 @@
                     </thead>
 
                     <tbody>
+                        @foreach ( $data_guru as $data)
+                            
                         <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>Foto</td>
-                            <td>S4</td>
+                            <td>{{$data->nip}}</td>
+                            <td>{{$data->nama}}</td>
+                            <td>{{$data->agama}}</td>
+                            <td>{{$data->tempat_lahir}}, {{$data->tanggal_lahir}}</td>
+                            <td>{{$data->jenis_kelamin}}</td>
+                            <td>{{$data->alamat}}</td>
                             <td>
-                                <a href="#" class="btn btn-warning">Edit</a>
+                                <img src="{{ asset('storage/'.$data->foto) }}" class="w-50 h-50" >
+                            </td>
+                            <td>{{$data->pendidikan_terakhir}}</td>
+                            <td>
+                                <a href="{{route('edit_data_guru',$data->nip)}}" class="btn btn-warning">Edit</a>
                                 <br>
                                 <button href="#" class="btn btn-danger mt-3">Hapus</button>
                             </td>
                         </tr>
+
+                        @endforeach
+
                     </tbody>
 
             </div>
@@ -71,6 +78,26 @@
         $(document).ready(function () {
             $('#table_data').DataTable();
         });
+
+        $(function(){
+
+            @if(Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Operasi Sukses',
+                    text: '{{ Session::get("success") }}'
+                })
+
+            @elseif(Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Operasi Gagal',
+                text: '{{ Session::get("error") }}'
+                })
+
+            @endif
+        });
+        
 
     </script>
 
