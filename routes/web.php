@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LogOutController;
+use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\SiswaController;
 
 /*
@@ -83,18 +84,35 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('tambahdatanilaisiswa',[AdminController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');
     Route::get('editdatanilaisiswa',[AdminController::class,'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
 
+    Route::get('datapenempatansiswa',[AdminController::class,'indexDataPenempatanSiswa'])->name('index_data_penempatan_siswa');
+    Route::get('tambahdatapenempatansiswa',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
+    Route::post('storedatapenempatansiswa',[AdminController::class,'storeDataPenempatanSiswa'])->name('store_data_penempatan_siswa');
+    Route::get('editdatapenempatansiswa/{penempatan}',[AdminController::class,'editDataPenempatanSiswa'])->name('edit_data_penempatan_siswa');
+    Route::put('updatedatapenempatansiswa/{penempatan}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_penempatan_siswa');
+    Route::delete('deletedatapenempatansiswa/{penempatan}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_penempatan_siswa');
+
+    Route::get('datamapelguru',[AdminController::class,'indexDataMapelGuru'])->name('index_data_mapel_guru');
+    Route::get('tambahdatamapelguru',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
+    Route::post('storedatamapelguru',[AdminController::class,'storeDataMapelGuru'])->name('store_data_mapel_guru');
+    Route::get('editdatamapelguru/{mapelguru}',[AdminController::class,'editDataMapelGuru'])->name('edit_data_mapel_guru');
+    Route::put('updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_mapel_guru');
+    Route::delete('deletedatamapelguru/{mapelguru}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_mapel_guru');
+
+
     Route::post('logout',[LogOutController::class,'logout'])->name('logout');
 
 
-
 });
 
 
-Route::group(['prefix' => 'guru', 'middleware' => ['checkRole:Guru']],function(){
+Route::group(['prefix' => 'guru',],function(){
     Route::get('home',[GuruController::class, 'index'])->name('guru_home');
+    Route::resources([
+        'nilaisiswa'=>NilaiController::class
+    ]);
 });
 
 
-Route::group(['prefix'=>'siswa', 'middleware' => ['checkRole:Siswa']],function(){
+Route::group(['prefix'=>'siswa'],function(){
     Route::get('home',[SiswaController::class, 'index'])->name('siswa_home');
 });

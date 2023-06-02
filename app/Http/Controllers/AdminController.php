@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\TahunAjaranRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
+use App\Models\PenempatanSiswa;
 
 class AdminController extends Controller
 {
@@ -518,5 +519,76 @@ class AdminController extends Controller
         Kelas::where('id_kelas','=',$kelas->id_kelas)->delete();
     }
 
+
+    //Mapel Guru
+
+    public function indexDataMapelGuru()
+    {
+        $data_siswa=Siswa::all();
+        return view('admin.DataPenempatanSiswa.index',['data_siswa'=>$data_siswa]);
+    }
+
+
+    public function createDataMapelGuru(Siswa $siswa)
+    {
+        $data_kelas=Kelas::all();
+        return view('admin.DataPenempatanSiswa.tambah',['data_siswa'=>$siswa,'data_kelas'=>$data_kelas]);
+    }
+
+    public function editDataMapelGuru(Siswa $siswa, PenempatanSiswa $penempatansiswa)
+    {
+        return view('admin.DataPenempatanSiswa',['data_siswa'=>$siswa,
+        'data_penempatansiswa'=>$penempatansiswa]);
+    }
+
+    public function updateDataMapelGuru(Request $request, PenempatanSiswa $penempatansiswa)
+    {
+
+        return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Mengubah Penempatan Siswa');
+    }
+
+
+    public function deleteDataMapelGuru(PenempatanSiswa $penempatansiswa)
+    {
+        PenempatanSiswa::where('id_penempatan_siswa')->delete();
+
+        return redirect()->route('index_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
+    }
+
+
+    //Guru Penempatan Siswa
+
+    public function indexDataPenempatanSiswa()
+    {
+        $data_siswa=Siswa::all();
+        return view('admin.DataPenempatanSiswa.index',['data_siswa'=>$data_siswa]);
+    }
+
+
+    public function createDataPenempatanSiswa(Siswa $siswa)
+    {
+        $data_kelas=Kelas::all();
+        return view('admin.DataPenempatanSiswa.tambah',['data_siswa'=>$siswa,'data_kelas'=>$data_kelas]);
+    }
+
+    public function editDataPenempatanSiswa(Siswa $siswa, PenempatanSiswa $penempatansiswa)
+    {
+        return view('admin.DataPenempatanSiswa',['data_siswa'=>$siswa,
+        'data_penempatansiswa'=>$penempatansiswa]);
+    }
+
+    public function updateDataPenempatanSiswa(Request $request, PenempatanSiswa $penempatansiswa)
+    {
+
+        return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Mengubah Penempatan Siswa');
+    }
+
+
+    public function deleteDataPenempatanSiswa(PenempatanSiswa $penempatansiswa)
+    {
+        PenempatanSiswa::where('id_penempatan_siswa')->delete();
+
+        return redirect()->route('index_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
+    }
 
 }

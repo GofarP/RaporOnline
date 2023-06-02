@@ -14,7 +14,8 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        return "Siswa Disini";
+        $data_siswa=Siswa::all();
+        return view('siswa.index',$data_siswa);
     }
 
     /**

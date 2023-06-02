@@ -19,7 +19,6 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-        @if(Auth::user()->role=="Admin")
                      <!-- Heading -->
             <div class="sidebar-heading">
                 Admin
@@ -90,15 +89,51 @@
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Nilai Siswa</span>
                     </a>
+
                     <div id="collapseNilaiSiswa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Components:</h6>
-                            <a class="collapse-item" href="buttons.html">Buttons</a>
-                            <a class="collapse-item" href="cards.html">Cards</a>
+                            <h6 class="collapse-header">Nilai Siswa:</h6>
+                            <a class="collapse-item" href="">Lihat Nilai Siswa</a>
+                            <a class="collapse-item" href="cards.html">Tambah Nilai Siswa</a>
                         </div>
                     </div>
                 </li>
 
+
+                <!-- Mata Pelajaran Guru -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMapelGuru"
+                        aria-expanded="true" aria-controls="collapseMapelGuru">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Mapel Guru</span>
+                    </a>
+
+                    <div id="collapseNilaiSiswa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Mapel Guru:</h6>
+                            <a class="collapse-item" href="">Lihat Mapel Guru</a>
+                            <a class="collapse-item" href="cards.html">Tambah Mapel Guru</a>
+                        </div>
+                    </div>
+                </li>
+
+
+
+                   <!-- Penempatan Siswa -->
+                   <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenempatanSiswa"
+                        aria-expanded="true" aria-controls="collapsePenempatanSiswa">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Penempatan Siswa</span>
+                    </a>
+                    <div id="collapsePenempatanSiswa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Penempatan Siswa:</h6>
+                            <a class="collapse-item" href="{{route('index_data_penempatan_siswa')}}">Lihat Penempatan Siswa</a>
+                            <a class="collapse-item" href="{{route('create_data_penempatan_siswa')}}">Tambah Penempatan <br> Siswa</a>
+                        </div>
+                    </div>
+                </li>
 
                   <!-- Tahun Ajaran -->
                   <li class="nav-item">
@@ -138,7 +173,6 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            @elseif(Auth::user()->role=="Guru")
 
                     <!--Guru-->
                 <!-- Heading -->
@@ -166,8 +200,8 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Nilai Siswa:</h6>
-                            <a class="collapse-item" href="login.html">Data Nilai Siswa</a>
-                            <a class="collapse-item" href="register.html">Tambah Nilai Siswa</a>
+                            <a class="collapse-item" href="{{route('nilaisiswa.index')}}">Data Nilai Siswa</a>
+                            <a class="collapse-item" href="{{route('nilaisiswa.create')}}">Tambah Nilai Siswa</a>
                         </div>
                     </div>
                 </li>
@@ -176,7 +210,6 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider">
 
-                @elseif(Auth::user()->role=="Siswa")
 
                         <!--Siswa-->
                     <!-- Heading -->
@@ -194,8 +227,6 @@
                     <!-- Divider -->
                     <hr class="sidebar-divider d-none d-md-block">
 
-
-                @endif
 
                 <li class="nav-item">
                     <a class="nav-link" href="" onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">

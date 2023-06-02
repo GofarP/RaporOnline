@@ -4,7 +4,7 @@
     @extends('partials.header.cssheader')
 
     @section('page-title')
-        Data Nilai Siswa
+        Data Guru
     @endsection
 
 
@@ -18,7 +18,7 @@
 
     <div class="card shadow mb-4 w-100">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Pribadi Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Pribadi Guru</h6>
         </div>
 
         <div class="card-body">
@@ -75,36 +75,23 @@
         </div>
     </div>
 
+
     <div class="card shadow mb-4 w-100">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Nilai Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Mata Pelajaran Yang Diampu</h6>
         </div>
 
         <div class="card-body">
-
-            <div class="table-responsive">
-                <table class="table table-bordered" id="table_data" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Mata Pelajaran</th>
-                            <th>Nilai</th>
-                            <th>Guru</th>
-                            <th>Kelas</th>
-                            <th>tahun Ajaran</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <td>Sejarah</td>
-                        <td>90</td>
-                        <td>Anu Siapa ini</td>
-                        <td>7E</td>
-                        <td>2013-2014</td>
-                    </tbody>
-
-            </div>
+            <ul>
+                <li>Matematika</li>
+                <li>Statistik</li>
+                <li>Aljabar Linear</li>
+            </ul>
         </div>
     </div>
+
+
+
     @endsection
 
     @extends('partials.footer.javascript')

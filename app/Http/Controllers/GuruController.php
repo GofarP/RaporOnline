@@ -20,7 +20,7 @@ class GuruController extends Controller
 
     public function index()
     {
-        return "Halo guru";
+        return view('guru.index');
     }
 
     /**

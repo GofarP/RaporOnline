@@ -13,7 +13,7 @@ class Siswa extends Model
 
     protected $table='siswa';
 
-    protected $incrementing=false;
+    public $incrementing=false;
 
     protected $guarded=[];
 

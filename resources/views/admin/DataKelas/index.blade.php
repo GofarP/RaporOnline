@@ -38,9 +38,15 @@
                             <td>{{$kelas->id_kelas}}</td>
                             <td>{{$kelas->kelas}}</td>
                             <td>
-                                <a href="#" class="btn btn-warning">Edit</a>
+                                <a href="{{route('edit_data_kelas')}}" class="btn btn-warning">Edit</a>
                                 <br>
-                                <button href="#" class="btn btn-danger mt-3">Hapus</button>
+                                <form action="{{route('destroy_data_kelas',$kelas->id_kelas)}}" method="POST"
+                                    class="d-inline" id="form-delete-data-guru">
+                                    @csrf
+                                    @method("DELETE")
+                                    <button href="#" class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Guru Ini?')"  name="btn-hapus" id="btn-hapus">Hapus</button>
+                                </form>
+
                             </td>
                         </tr>
                     @endforeach

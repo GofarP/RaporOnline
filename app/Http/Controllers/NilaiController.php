@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nilai;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class NilaiController extends Controller
 {
@@ -14,7 +16,9 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        //
+        $data_siswa=Siswa::all();
+
+        return view('Guru.Nilai.index',['data_siswa'=>$data_siswa]);
     }
 
     /**

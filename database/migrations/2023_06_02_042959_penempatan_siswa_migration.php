@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mapel_master', function (Blueprint $table){
-            $table->string('id_data')->primary();
-            $table->string('id_mapel');
-            $table->string('id_guru');
+        Schema::create('penempatan_siswa',function (Blueprint $table) {
+            $table->string('id_penempatan_siswa')->primary();
+            $table->string('nisn');
+            $table->string('id_kelas');
+            $table->timestamps();
+
+
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('penempatan_siswa');
     }
 };
