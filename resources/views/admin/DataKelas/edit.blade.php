@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <form method="POST" action="#">
+            <form method="POST" action="{{route('update_data_kelas',$data_kelas->id_kelas)}}">
                 @csrf
                 @method('PUT')
 
@@ -28,7 +28,7 @@
                 <div class="mb-3">
                     <label for="kelas" class="mt-3 mb-2">Nama Kelas:</label>
                     <input type="text" name="kelas" id="Kelas" placeholder="Masukkan Kelas"  data-parsley-required="true"
-                        class="form-control @error('kelas') is-invalid @enderror" value="{{ old('kelas') }}">
+                        class="form-control @error('kelas') is-invalid @enderror" value="{{ old('kelas',$data_kelas->kelas) }}">
                         @error('kelas')
                         <div class="invalid-feedback">
                             {{ $message }}

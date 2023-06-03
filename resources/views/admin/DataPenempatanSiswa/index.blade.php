@@ -31,13 +31,24 @@
                         </tr>
 
                         <tbody>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
 
-                            </td>
+                            @foreach ($data_penempatan as $penempatan)
+                                <td>{{$penempatan->nisn}}</td>
+                                <td>{{$penempatan->nama}}</td>
+                                <td>{{$penempatan->kelas}}</td>
+                                <td>{{$penempatan->tahun_ajaran}}</td>
+                                <td>
+                                    <a href="{{route('edit_data_penempatan_siswa',$penempatan->id_penempatan_siswa)}}" class="btn btn-warning">Edit</a>
+                                    <br>
+                                    <form action="{{route('destroy_data_penempatan_siswa',$penempatan->id_penempatan_siswa)}}" method="POST"
+                                        class="d-inline" id="form-delete-kredensial">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button href="#" class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Penempatan Siswa Ini?')">Hapus</button>
+                                    </form>
+                                </td>
+                            @endforeach
+
                         </tbody>
                     </thead>
                 </table>
@@ -52,6 +63,7 @@
         </div>
 
         <div class="card-body">
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -81,14 +93,9 @@
                                 <img src="{{ asset('storage/'.$data->foto) }}" class="w-50 h-50">
                             </td>
                             <td>
-                                <a href="{{route('edit_data_siswa',$data->nisn)}}" class="btn btn-warning">Edit</a>
+                                <a href="{{route('create_data_penempatan_siswa',$data->nisn)}}" class="btn btn-primary">Tambah</a>
                                 <br>
-                                <form action="{{route('destroy_data_siswa',$data->nisn)}}" method="POST"
-                                    class="d-inline" id="form-delete-data_siswa">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button href="#" class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Siswa Ini?')"  name="btn-hapus" id="btn-hapus">Hapus</button>
-                                </form>
+
                             </td>
                         </tr>
                         @endforeach
@@ -109,6 +116,10 @@
 
 
         $(function(){
+
+            $(document).ready(function () {
+                $('#tblSiswa').DataTable();
+            });
 
             @if(Session::has('success'))
                 Swal.fire({

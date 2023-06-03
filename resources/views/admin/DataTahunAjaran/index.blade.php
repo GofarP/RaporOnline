@@ -39,7 +39,7 @@
                             <td>
                                 <a href="{{route('edit_data_tahun_ajaran', $tahun_ajaran->id_tahun_ajaran)}}" class="btn btn-warning">Edit</a>
                                 <br>
-                                <form action="{{route('destroy_data_tahun_ajaran',$tahun_ajaran->tahun_ajaran)}}" method="POST"
+                                <form action="{{route('destroy_data_tahun_ajaran',$tahun_ajaran->id_tahun_ajaran)}}" method="POST"
                                     class="d-inline" id="form-delete-kredensial">
                                     @csrf
                                     @method("DELETE")

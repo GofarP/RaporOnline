@@ -4,7 +4,7 @@
     @extends('partials.header.cssheader')
 
     @section('page-title')
-        Tambah Data Penempatan Siswa
+        Update Data Penempatan Siswa
     @endsection
 
     <script src="{{url('/bs/js/jquery.min.js')}}"></script>
@@ -15,18 +15,19 @@
     @section('content')
     <div class="card shadow mb-4 w-100" >
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"> Tambah Data Penempatan Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-primary"> Update Data Penempatan Siswa</h6>
         </div>
 
         <div class="card-body">
 
-            <form method="POST" action="{{route('store_data_penempatan_siswa')}}" >
+            <form method="POST" action="{{route('update_data_penempatan_siswa',$data_penempatan->id_penempatan_siswa)}}" >
                 @csrf
+                @method('PUT')
 
                 <div class="mb-3">
-                    <label for="email" class="mt-3 mb-2">NISN:</label>
-                    <label for="name" class="mt-3 mb-2">{{$data_siswa->nisn}}</label>
-                    <input type="hidden" value="{{$data_siswa->nisn}}" name="nisn"/>
+                    <label class="mt-3 mb-2">NISN:</label>
+                    <label  class="mt-3 mb-2">{{$data_penempatan->nisn}}</label>
+                    <input type="hidden" value="{{$data_penempatan->nisn}}" name="nisn"/>
 
                     @error('nisn')
                         <div class="invalid-feedback">
@@ -39,7 +40,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="mt-3 mb-2">Nama Siswa:</label>
-                    <label for="name" class="mt-3 mb-2">{{$data_siswa->nama}}</label>
+                    <label for="name" class="mt-3 mb-2">{{$data_penempatan->nama}}</label>
                 </div>
 
                 <div class="mb-3">
@@ -58,26 +59,8 @@
                     </select>
                 </div>
 
-
                 <div class="mb-3">
-                    <label for="id_kelas" class="mt-3 mb-2">Pilih Tahun Ajaran</label>
-                    <select class="form-control @error('id_tahun_ajaran') is-invalid @enderror" name="id_tahun_ajaran" id="id_kelas">
-                       @foreach ($data_tahun_ajaran as $tahun_ajaran)
-                         <option value="{{$tahun_ajaran->id_tahun_ajaran}}">{{$tahun_ajaran->tahun_ajaran}}</option>
-                       @endforeach
-
-                       @error('id_kelas')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </select>
-                </div>
-
-
-                <div class="mb-3">
-                    <input type="submit" class="form-control btn btn-success mt-3" value="Tambah Penempatan Siswa" style="border-radius:100px">
+                    <input type="submit" class="form-control btn btn-success mt-3" value="Update Penempatan Siswa" style="border-radius:100px">
                 </div>
 
                 </div>

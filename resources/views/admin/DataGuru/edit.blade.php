@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <form method="POST" action="#" enctype="multipart/form-data">
+            <form method="POST" action="{{route('update_data_guru',$data_guru->nip)}}" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
 
@@ -50,12 +50,13 @@
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Guru:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
-                        <option value="{{$data_guru->agama == "Islam" ? 'selected' : ''}}">Islam</option>
-                        <option value="{{$data_guru->agama == "Protestan" ? 'selected' : ''}}">Protestan</option>
-                        <option value="{{$data_guru->agama == "Katolik" ? 'selected' : ''}}">Katolik</option>
-                        <option value="{{$data_guru->agama == "Hindu" ? 'selected' : ''}}">Hindu</option>
-                        <option value="{{$data_guru->agama == "Buddha" ? 'selected' : ''}}">Buddha</option>
-                        <option value="{{$data_guru->agama == "Konghucu" ? 'selected' : ''}}">Konghucu</option>
+                        <option value="Islam">Islam</option>
+                        <option value="Protestan" >Protestan</option>
+                        <option value="Katholik">Katholik</option>
+                        <option value="Hindu">Hindu</option>
+                        <option value="Buddha">Buddha</option>
+                        <option value="Konghucu">Konghucu</option>
+
                     </select>
                         @error('agama')
                             <div class="invalid-feedback">
@@ -67,8 +68,8 @@
                 <div class="mb-3">
                     <label for="jenis_kelamin" class="mt-3 mb-2">Jenis Kelamin:</label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" id="jenis_kelamin">
-                        <option value="{{$data_guru->jenis_kelamin == "Pria" ? 'selected' : ''}}">Pria</option>
-                        <option value="{{$data_guru->jenis_kelamin == "Wanita" ? 'selected' : ''}}">Wanita</option>
+                        <option value="Pria" {{$data_guru->jenis_kelamin == "Pria"  ? 'selected' : ''}}>Pria</option>
+                        <option value="Wanita" {{$data_guru->jenis_kelamin == "Wanita"  ? 'selected' : ''}}>Wanita</option>
                     </select>
                         @error('jenis_kelamin')
                             <div class="invalid-feedback">
@@ -133,7 +134,7 @@
                 </div>
 
                 <div class="mb-3">
-                        <label for="alamat" class="mt-3 mb-2">Foto Guru:</label>
+                        <label for="foto" class="mt-3 mb-2">Foto Guru:</label>
                         <input type="file" name="foto" id="foto"
                         class="form-control-file @error('foto') is-invalid @enderror" onchange="previewImage()">
                         @if($data_guru->foto)
@@ -151,7 +152,7 @@
 
 
                 <div class="mb-3">
-                    <input type="submit" class="form-control btn btn-success mt-3" value="Tambah Data Guru" style="border-radius:100px">
+                    <input type="submit" class="form-control btn btn-success mt-3" value="Update Data Guru" style="border-radius:100px">
                 </div>
 
                 </div>

@@ -33,6 +33,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('tambahdataguru',[AdminController::class,'createDataGuru'])->name('create_data_guru');
     Route::post('storedataguru',[AdminController::class,'storeDataGuru'])->name('store_data_guru');
     Route::get('editdataguru/{guru}',[AdminController::class,'editDataGuru'])->name('edit_data_guru');
+    Route::put('updatedataguru/{guru}',[AdminController::class,'updateDataGuru'])->name('update_data_guru');
+    Route::delete('destroydataguru/{guru}',[AdminController::class,'destroyDataGuru'])->name('destroy_data_guru');
+
 
     Route::get('kredensialguru',[AdminController::class,'indexKredensialGuru'])->name('index_kredensial_guru');
     Route::get('tambahkredensialguru',[AdminController::class,'createKredensialGuru'])->name('create_kredensial_guru');
@@ -54,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('tambahdatasiswa',[AdminController::class,'createDataSiswa'])->name('create_data_siswa');
     Route::post('storedatasiswa',[AdminController::class,'storeDataSiswa'])->name('store_data_siswa');
     Route::get('editdatasiswa/{siswa}',[AdminController::class,'editDataSiswa'])->name('edit_data_siswa');
+    Route::put('updatedatasiswa/{siswa}',[AdminController::class,'updateDataSiswa'])->name('update_data_siswa');
     Route::delete('destroydatasiswa/{siswa}',[AdminController::class,'destroyDataSiswa'])->name('destroy_data_siswa');
 
 
@@ -85,7 +89,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('editdatanilaisiswa',[AdminController::class,'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
 
     Route::get('datapenempatansiswa',[AdminController::class,'indexDataPenempatanSiswa'])->name('index_data_penempatan_siswa');
-    Route::get('tambahdatapenempatansiswa',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
+    Route::get('tambahdatapenempatansiswa/{siswa}',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
     Route::post('storedatapenempatansiswa',[AdminController::class,'storeDataPenempatanSiswa'])->name('store_data_penempatan_siswa');
     Route::get('editdatapenempatansiswa/{penempatan}',[AdminController::class,'editDataPenempatanSiswa'])->name('edit_data_penempatan_siswa');
     Route::put('updatedatapenempatansiswa/{penempatan}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_penempatan_siswa');

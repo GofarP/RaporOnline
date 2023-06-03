@@ -27,4 +27,9 @@ class TahunAjaran extends Model
     protected $table='tahun_ajaran';
 
     protected $guarded=[];
+
+    public function penempatan()
+    {
+        return $this->hasMany(PenempatanSiswa::class,'id_tahun_ajaran');
+    }
 }

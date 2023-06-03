@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <form method="POST" action="#" enctype="multipart/form-data">
+            <form method="POST" action="{{route('update_data_siswa',$siswa->nisn)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -50,12 +50,12 @@
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Siswa:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
-                        <option value="{{$siswa->agama == "Islam" ? 'selected' : ''}}">Islam</option>
-                        <option value="{{$siswa->agama == "Protestan" ? 'selected' : ''}}">Protestan</option>
-                        <option value="{{$siswa->agama == "Katolik" ? 'selected' : ''}}">Katolik</option>
-                        <option value="{{$siswa->agama == "Hindu" ? 'selected' : ''}}">Hindu</option>
-                        <option value="{{$siswa->agama == "Buddha" ? 'selected' : ''}}">Buddha</option>
-                        <option value="{{$siswa->agama == "Konghucu" ? 'selected' : ''}}">Konghucu</option>
+                        <option value="Islam">Islam</option>
+                        <option value="Protestan">Protestan</option>
+                        <option value="Katholik">Katolik</option>
+                        <option value="Hindu">Hindu</option>
+                        <option value="Buddha">Buddha</option>
+                        <option value="Konghucu">Konghucu</option>
 
                     </select>
                         @error('agama')
@@ -68,8 +68,8 @@
                 <div class="mb-3">
                     <label for="jenis_kelamin" class="mt-3 mb-2">Jenis Kelamin:</label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" id="jenis_kelamin">
-                        <option value="{{$siswa->jenis_kelamin == "Pria" ? 'selected' : ''}}">Pria</option>
-                        <option value="{{$siswa->jenis_kelamin == "Wanita" ? 'selected' : ''}}">Wanita</option>
+                        <option value="Pria">Pria</option>
+                        <option value="Wanita">Wanita</option>
                     </select>
                         @error('jenis_kelamin')
                             <div class="invalid-feedback">
@@ -142,7 +142,7 @@
 
 
                 <div class="mb-3">
-                    <input type="submit" class="form-control btn btn-success mt-3" value="Edit Data Siswa" style="border-radius:100px">
+                    <input type="submit" class="form-control btn btn-success mt-3" value="Update Data Siswa" style="border-radius:100px">
                 </div>
 
                 </div>

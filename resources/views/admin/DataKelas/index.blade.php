@@ -38,7 +38,7 @@
                             <td>{{$kelas->id_kelas}}</td>
                             <td>{{$kelas->kelas}}</td>
                             <td>
-                                <a href="{{route('edit_data_kelas')}}" class="btn btn-warning">Edit</a>
+                                <a href="{{route('edit_data_kelas',$kelas->id_kelas)}}" class="btn btn-warning">Edit</a>
                                 <br>
                                 <form action="{{route('destroy_data_kelas',$kelas->id_kelas)}}" method="POST"
                                     class="d-inline" id="form-delete-data-guru">

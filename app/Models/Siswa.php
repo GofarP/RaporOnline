@@ -17,4 +17,9 @@ class Siswa extends Model
 
     protected $guarded=[];
 
+    public function penempatan()
+    {
+        return $this->hasMany(PenempatanSiswa::class,'nisn');
+    }
+
 }

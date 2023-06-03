@@ -97,7 +97,9 @@
 
     <script>
 
+
         $(function() {
+
             $('#datepicker_tahun_awal').datepicker({
                     format: 'yyyy',
                     viewMode: "years",
@@ -110,6 +112,21 @@
                     minViewMode: "years"
             });
 
+            @if(Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Operasi Sukses',
+                    text: '{{ Session::get("success") }}'
+                })
+
+            @elseif(Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Operasi Gagal',
+                text: '{{ Session::get("error") }}'
+                })
+
+            @endif
         });
 
     </script>

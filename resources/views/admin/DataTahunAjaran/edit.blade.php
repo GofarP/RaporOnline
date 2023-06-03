@@ -23,7 +23,7 @@
 
             <form method="POST" action="{{route('update_data_tahun_ajaran',$tahun_ajaran->id_tahun_ajaran)}}">
                 @csrf
-
+                @method('PUT')
                 <div class="mb-3">
                     <label class="mb-3 mt-3">Rentang Tahun</label>
                     <div class="row justify-content-between">
@@ -109,6 +109,23 @@
                     viewMode: "years",
                     minViewMode: "years"
             });
+
+
+            @if(Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Operasi Sukses',
+                    text: '{{ Session::get("success") }}'
+                })
+
+            @elseif(Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Operasi Gagal',
+                text: '{{ Session::get("error") }}'
+                })
+
+            @endif
 
         });
 

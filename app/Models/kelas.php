@@ -28,4 +28,9 @@ class Kelas extends Model
     public $incrementing=false;
 
     protected $guarded=[];
+
+    public function penempatan()
+    {
+        return $this->hasMany(PenempatanSiswa::class,'id_kelas');
+    }
 }

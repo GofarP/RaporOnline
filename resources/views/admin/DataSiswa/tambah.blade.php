@@ -151,23 +151,14 @@
 
     <script>
 
-
-        $(function() {
-            $('#datepicker_tahun_awal').datepicker({
-                    format: 'yyyy',
-                    viewMode: "years",
-                    minViewMode: "years"
-                });
-
-                $('#datepickertahun_akhir').datepicker({
-                    format: 'yyyy',
-                    viewMode: "years",
-                    minViewMode: "years"
-                });
+$(function() {
+            $('#tanggal_lahir').datepicker({
+                format: 'dd-mm-yyyy'
+            });
         });
 
     </script>
 
-   
+
 </body>
 </html>

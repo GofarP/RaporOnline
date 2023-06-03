@@ -12,6 +12,9 @@
 
     @extends('partials.sidebar.sidebar')
 
+    <script src="{{url('/bs/js/jquery.min.js')}}"></script>
+
+
     @section('content')
 
     <div class="card shadow mb-4">
@@ -72,9 +75,13 @@
 
     @extends('partials.footer.javascript')
 
-
     <script>
-          $(function(){
+
+        $(document).ready(function () {
+            $('#table_data').DataTable();
+        });
+
+        $(function(){
 
             @if(Session::has('success'))
                 Swal.fire({
@@ -83,15 +90,17 @@
                     text: '{{ Session::get("success") }}'
                 })
 
-                @elseif(Session::has('error'))
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Operasi Gagal',
-                    text: '{{ Session::get("error") }}'
-                    })
+            @elseif(Session::has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Operasi Gagal',
+                text: '{{ Session::get("error") }}'
+                })
 
-                @endif
+            @endif
         });
+
+
     </script>
 
 </body>

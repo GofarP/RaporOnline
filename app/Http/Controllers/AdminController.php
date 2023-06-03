@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Agama;
-use JenisKelamin;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use App\Enums\Agama;
+use App\Enums\JenisKelamin;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
+use App\Models\PenempatanSiswa;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
+use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\DataGuruRequest;
 use App\Http\Requests\DataMapelRequest;
 use App\Http\Requests\DataSiswaRequest;
-use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\TahunAjaranRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
-use App\Models\PenempatanSiswa;
+use App\Http\Requests\PenempatanSiswaRequest;
 
 class AdminController extends Controller
 {
@@ -59,15 +61,16 @@ class AdminController extends Controller
 
     public function updateDataGuru(Request $request, Guru $guru)
     {
+
         $request->validate([
-            "nip"=>"required|numeric|unique:guru,nip,'. $guru->nip.',nip'",
+            "nip"=>['required','numeric',Rule::unique('guru', 'nip')->ignore($guru->nip,'nip')],
             "nama"=>"required|max:255",
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
-            'jenis_kelamin'=>['required',new Enum(JenisKelamin::class)],
+            "jenis_kelamin"=>['required',new Enum(JenisKelamin::class)],
             'alamat'=>'required|string|max:255',
-            'foto'=>'required|image|file|mimes:jpeg,jpg|max:500',
+            'foto'=>'image|file|mimes:jpeg,jpg|max:500',
             'pendidikan_terakhir'=>'required|string|max:255'
         ],[
             'nip.required'=>"Silahkan Isi NIP Guru",
@@ -80,9 +83,8 @@ class AdminController extends Controller
             'tanggal_lahir.required'=>"Silahkan Isi Tanggal Lahir Guru",
             'tanggal_lahir.date_format'=>"Format Tanggal Lahir Tidak Valid",
             'jenis_kelamin.required'=>"Silahkan Isi Jenis Kelamin Guru",
-            'jenis_kelamin.Illuminate\Validation\Rules\Enum'=>"Pilihan Jenis Kelamin Tidak Valid",
+            'jenis_kelamin.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
             'alamat.required'=>'Silahkan Isi Alamat Guru',
-            'foto.required'=>"Silahkan Pilih Foto Guru",
             'foto.image'=>'File Yang Diupload Harus Merupakan Gambar/Foto',
             'foto.uploaded'=>'Ukuran Gambar Yang Diupload Maksimal 500KB',
             'pendidikan_terakhir.required'=>'Silahkan Isi Pendidikan Terakhir'
@@ -93,13 +95,12 @@ class AdminController extends Controller
         if($request->file('foto'))
         {
             Storage::disk('public')->delete($guru->foto);
-            $data_guru['foto']=$request->file('picture_path')->store('assets/guru','public');
+            $data_guru['foto']=$request->file('foto')->store('assets/guru','public');
         }
 
-        Guru::where('nip',$guru->nip)->update($data_guru);
+        Guru::where('nip','=',$guru->nip)->update($data_guru);
+
         return redirect()->route('index_data_guru')->with('success','Sukses Mengubah Data Guru');;
-
-
 
     }
 
@@ -216,28 +217,27 @@ class AdminController extends Controller
     public function updateDataSiswa(Request $request, Siswa $siswa)
     {
         $request->validate([
-            "nip"=>"required|numeric|unique:siswa,nisn,'. $siswa->nisn.',nisn'",
+            "nisn"=>['required','numeric',Rule::unique('siswa', 'nisn')->ignore($siswa->nisn,'nisn')],
             "nama"=>"required|max:255",
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
             'jenis_kelamin'=>['required',new Enum(JenisKelamin::class)],
             'alamat'=>'required|string|max:255',
-            'foto'=>'required|image|file|mimes:jpeg,jpg|max:500',
+            'foto'=>'image|file|mimes:jpeg,jpg|max:500',
         ],[
-            'nip.required'=>"Silahkan Isi NIP Guru",
-            'nip.unique'=>"Pengguna Dengan NIP Ini Sudah Ditambahkan",
-            'nip.numeric'=>"NIP Harus Menggunakan Angka",
-            'nama.required'=>"Silahkan Isi Nama Guru",
-            'agama.required'=>"Silahkan Isi Agama Guru",
+            'nisn.required'=>"Silahkan Isi NISN Siswa",
+            'nisn.unique'=>"Pengguna Dengan NISN Ini Sudah Ditambahkan",
+            'nisn.numeric'=>"NISN Harus Menggunakan Angka",
+            'nama.required'=>"Silahkan Isi Nama Siswa",
+            'agama.required'=>"Silahkan Isi Agama Siswa",
             'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
-            'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Guru",
-            'tanggal_lahir.required'=>"Silahkan Isi Tanggal Lahir Guru",
+            'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Siswa",
+            'tanggal_lahir.required'=>"Silahkan Isi Tanggal Lahir Siswa",
             'tanggal_lahir.date_format'=>"Format Tanggal Lahir Tidak Valid",
-            'jenis_kelamin.required'=>"Silahkan Isi Jenis Kelamin Guru",
+            'jenis_kelamin.required'=>"Silahkan Isi Jenis Kelamin Siswa",
             'jenis_kelamin.Illuminate\Validation\Rules\Enum'=>"Pilihan Jenis Kelamin Tidak Valid",
-            'alamat.required'=>'Silahkan Isi Alamat Guru',
-            'foto.required'=>"Silahkan Pilih Foto Guru",
+            'alamat.required'=>'Silahkan Isi Alamat Siswa',
             'foto.image'=>'File Yang Diupload Harus Merupakan Gambar/Foto',
             'foto.uploaded'=>'Ukuran Gambar Yang Diupload Maksimal 500KB',
         ]);
@@ -252,7 +252,6 @@ class AdminController extends Controller
 
         Siswa::where('nisn',$siswa->nip)->update($data_siswa);
         return redirect()->route('index_data_siswa')->with('success','Sukses Mengubah Data Siswa');;
-
 
     }
 
@@ -417,6 +416,13 @@ class AdminController extends Controller
 
 
         $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
+        $cek_tahun_ajaran=TahunAjaran::where('tahun_ajaran','=',$data['tahun_ajaran'])->first();
+
+        if($cek_tahun_ajaran)
+        {
+            return redirect()->back()->with('error','Tahun Ajaran Ini Sudah Ditambahkan Sebelumnya');
+        }
+
         TahunAjaran::create($data);
 
         return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menambahkan Tahun Ajaran');
@@ -433,7 +439,7 @@ class AdminController extends Controller
     public function updateDataTahunAjaran(Request $request, TahunAjaran $tahunajaran)
     {
 
-        $data_tahun_ajaran=$request->all();
+        $data_tahun_ajaran=$request->except(['_method','_token']);
 
         $request->validate([
             'tahun_awal'=>'required|numeric',
@@ -445,16 +451,25 @@ class AdminController extends Controller
             'tahun_akhir.numeric'=>'Tahun Akhir Ajaran Harus Berupa Angka',
         ]);
 
-        if($data_tahun_ajaran["tahun_awal"]>$data_tahun_ajaran["tahun_akhir"])
-        {
-            return back()->with('rentang_tahun_error',"Tahun Awal Harus Lebih Kecil Daripada Tahun Akhir");
-        }
 
         $data['tahun_ajaran']=$data_tahun_ajaran["tahun_awal"]."-".$data_tahun_ajaran["tahun_akhir"];
-        TahunAjaran::create($data);
+
+        $cek_tahun_ajaran=TahunAjaran::where('tahun_ajaran','=',$data['tahun_ajaran'])->first();
+
+        if($cek_tahun_ajaran)
+        {
+            return redirect()->back()->with('error','Tahun Ajaran Ini Sudah Ditambahkan Sebelumnya');
+        }
+
+        if($data_tahun_ajaran['tahun_awal']>$data_tahun_ajaran['tahun_akhir'])
+        {
+            return redirect()->back()->with('error','Tahun Awal Tidak Boleh Lebih Besar Dari Tahun Akhir');
+        }
+
+
+        TahunAjaran::where('id_tahun_ajaran','=',$tahunajaran->id_tahun_ajaran)->update($data);
 
         return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menambahkan Tahun Ajaran');
-
 
 
     }
@@ -511,12 +526,15 @@ class AdminController extends Controller
 
         Kelas::where('id_kelas','=',$kelas->id_kelas)->update($data_kelas);
 
+        return redirect()->route('index_data_kelas')->with('success',"Berhasil Mengubah Data Kelas");
+
     }
 
 
     public function deleteDataKelas(Kelas $kelas)
     {
         Kelas::where('id_kelas','=',$kelas->id_kelas)->delete();
+        return redirect()->route('index_data_kelas')->with('success',"Berhasil Mengubah Data");
     }
 
 
@@ -561,34 +579,82 @@ class AdminController extends Controller
     public function indexDataPenempatanSiswa()
     {
         $data_siswa=Siswa::all();
-        return view('admin.DataPenempatanSiswa.index',['data_siswa'=>$data_siswa]);
+        $data_penempatan=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->with(['siswa','kelas','tahunajaran'])
+        ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
+        ->join('kelas','penempatan_siswa.id_kelas','=','kelas.id_kelas')
+        ->join('tahun_ajaran','penempatan_siswa.id_tahun_ajaran','=','tahun_ajaran.id_tahun_ajaran')
+        ->get();
+
+        return view('admin.DataPenempatanSiswa.index',['data_siswa'=>$data_siswa,
+        'data_penempatan'=>$data_penempatan]);
     }
 
 
     public function createDataPenempatanSiswa(Siswa $siswa)
     {
         $data_kelas=Kelas::all();
-        return view('admin.DataPenempatanSiswa.tambah',['data_siswa'=>$siswa,'data_kelas'=>$data_kelas]);
+        $data_tahun_ajaran=TahunAjaran::all();
+
+        return view('admin.DataPenempatanSiswa.tambah',['data_siswa'=>$siswa
+        ,'data_kelas'=>$data_kelas
+        ,'data_tahun_ajaran'=>$data_tahun_ajaran]);
     }
 
-    public function editDataPenempatanSiswa(Siswa $siswa, PenempatanSiswa $penempatansiswa)
+    public function storeDataPenempatanSiswa(PenempatanSiswaRequest $request)
     {
-        return view('admin.DataPenempatanSiswa',['data_siswa'=>$siswa,
-        'data_penempatansiswa'=>$penempatansiswa]);
+        $data_penempatan=$request->all();
+
+        $cek_penempatan=PenempatanSiswa::where('nisn','=',$data_penempatan['nisn'])->first();
+
+        if($cek_penempatan)
+        {
+            return redirect()->back()->with('error','Siswa Sudah Ditempatkan Di Kelas Lain');
+        }
+
+        else
+        {
+            PenempatanSiswa::create($data_penempatan);
+            return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Menempatkan Siswa Di Kelas Ini');
+        }
+
     }
 
-    public function updateDataPenempatanSiswa(Request $request, PenempatanSiswa $penempatansiswa)
+    public function editDataPenempatanSiswa(PenempatanSiswa $penempatan)
     {
+        $data_kelas=Kelas::all();
+
+        $data_tahun_ajaran=TahunAjaran::all();
+
+        $data_penempatan=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->with(['siswa','kelas','tahunajaran'])
+        ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
+        ->join('kelas','penempatan_siswa.id_kelas','=','kelas.id_kelas')
+        ->join('tahun_ajaran','penempatan_siswa.id_tahun_ajaran','=','tahun_ajaran.id_tahun_ajaran')
+        ->where('id_penempatan_siswa','=',$penempatan->id_penempatan_siswa)
+        ->first();
+
+        return view('admin.DataPenempatanSiswa.edit',['data_penempatan'=>$data_penempatan
+        ,'data_kelas'=>$data_kelas
+        ,'data_tahun_ajaran'=>$data_tahun_ajaran]);
+    }
+
+    public function updateDataPenempatanSiswa(Request $request, PenempatanSiswa $penempatan)
+    {
+        $data_penempatan=$request->except(['_method','_token']);
+
+        PenempatanSiswa::where('id_penempatan_siswa','=',$penempatan->id_penempatan_siswa)
+        ->update($data_penempatan);
 
         return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Mengubah Penempatan Siswa');
     }
 
 
-    public function deleteDataPenempatanSiswa(PenempatanSiswa $penempatansiswa)
+    public function deleteDataPenempatanSiswa(PenempatanSiswa $penempatan)
     {
-        PenempatanSiswa::where('id_penempatan_siswa')->delete();
+        PenempatanSiswa::where('id_penempatan_siswa','=',$penempatan->id_penempatan_siswa)->delete();
 
-        return redirect()->route('index_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
+        return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
     }
 
 }

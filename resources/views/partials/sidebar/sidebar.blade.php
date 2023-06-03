@@ -108,7 +108,7 @@
                         <span>Mapel Guru</span>
                     </a>
 
-                    <div id="collapseNilaiSiswa" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseMapelGuru" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Mapel Guru:</h6>
                             <a class="collapse-item" href="">Lihat Mapel Guru</a>
@@ -130,7 +130,6 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Penempatan Siswa:</h6>
                             <a class="collapse-item" href="{{route('index_data_penempatan_siswa')}}">Lihat Penempatan Siswa</a>
-                            <a class="collapse-item" href="{{route('create_data_penempatan_siswa')}}">Tambah Penempatan <br> Siswa</a>
                         </div>
                     </div>
                 </li>

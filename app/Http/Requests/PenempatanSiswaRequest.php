@@ -13,7 +13,7 @@ class PenempatanSiswaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,23 @@ class PenempatanSiswaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nisn'=>'required|numeric|exists:siswa,nisn',
+            'id_kelas'=>'required|exists:kelas,id_kelas',
+            'id_tahun_ajaran'=>'required|exists:tahun_ajaran,id_tahun_ajaran',
+        ];
+    }
+
+
+    public function messages()
+    {
+        return[
+            'nisn.required'=>"Nisn Siswa Tidak Valid, Silahkan Pilih Ulang Siswa",
+            'nisn.numeric'=>'Nisn Harus Berupa Angka',
+            'nisn.exists'=>'Nisn Siswa Tidak Ditemukan, Silahkan Pilih Ulang Siswa',
+            'id_kelas.required'=>'Id Kelas Tidak Valid, Silahkan refresh browser',
+            'id_kelas.exists'=>'Nisn Siswa Tidak Ditemukan, Silahkan Refresh browser',
+            'id_tahun_ajaran.required'=>'Id Tahun Ajaran Tidak Valid, Silahkan refresh browser',
+            'id_tahun_ajaran.exists'=>'Id Tahun Ajaran Tidak Ditemukan, Silahkan Refresh Browser',
         ];
     }
 }
