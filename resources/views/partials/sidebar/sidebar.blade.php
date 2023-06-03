@@ -31,7 +31,7 @@
             </li>
 
             <!-- Menu Data Guru -->
-            <li class="nav-item">
+            <li class="nav-item  {{ Request::is('admin/guru*') ? 'active' : '' }} ">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataGuru"
                     aria-expanded="true" aria-controls="collapseDataGuru">
                     <i class="fas fa-fw fa-cog"></i>
@@ -49,7 +49,7 @@
             </li>
 
             <!-- Menu Data Siswa -->
-            <li class="nav-item">
+            <li class="nav-item  {{ Request::is('admin/siswa*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataSiswa"
                     aria-expanded="true" aria-controls="collapSeDataSiswa">
                     <i class="fas fa-fw fa-cog"></i>
@@ -67,7 +67,7 @@
             </li>
 
               <!-- Menu MataPelajaran -->
-              <li class="nav-item">
+              <li class="nav-item  {{ Request::is('admin/mapel*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataMapel"
                     aria-expanded="true" aria-controls="collapseDataMapel">
                     <i class="fas fa-fw fa-cog"></i>
@@ -83,7 +83,7 @@
               </li>
 
                 <!-- Menu Nilai Siswa -->
-               <li class="nav-item">
+               <li class="nav-item  {{ Request::is('admin/nilaisiswa*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNilaiSiswa"
                         aria-expanded="true" aria-controls="collapseNilaiSiswa">
                         <i class="fas fa-fw fa-cog"></i>
@@ -101,7 +101,7 @@
 
 
                 <!-- Mata Pelajaran Guru -->
-                <li class="nav-item">
+                <li class="nav-item  {{ Request::is('admin/mapelguru*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMapelGuru"
                         aria-expanded="true" aria-controls="collapseMapelGuru">
                         <i class="fas fa-fw fa-cog"></i>
@@ -111,8 +111,7 @@
                     <div id="collapseMapelGuru" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Mapel Guru:</h6>
-                            <a class="collapse-item" href="">Lihat Mapel Guru</a>
-                            <a class="collapse-item" href="cards.html">Tambah Mapel Guru</a>
+                            <a class="collapse-item" href="{{route(index_data_mapel_guru)}}">Lihat Mapel Guru</a>
                         </div>
                     </div>
                 </li>
@@ -120,7 +119,7 @@
 
 
                    <!-- Penempatan Siswa -->
-                   <li class="nav-item">
+                   <li class="nav-item  {{ Request::is('admin/penempatan*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenempatanSiswa"
                         aria-expanded="true" aria-controls="collapsePenempatanSiswa">
                         <i class="fas fa-fw fa-cog"></i>
@@ -135,7 +134,7 @@
                 </li>
 
                   <!-- Tahun Ajaran -->
-                  <li class="nav-item">
+                  <li class="nav-item  {{ Request::is('admin/tahunajaran*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTahunAjaran"
                         aria-expanded="true" aria-controls="collapseTahunAjaran">
                         <i class="fas fa-fw fa-cog"></i>
@@ -152,7 +151,7 @@
 
 
                 <!-- Kelas -->
-                <li class="nav-item">
+                <li class="nav-item  {{ Request::is('admin/kelas*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKelas"
                         aria-expanded="true" aria-controls="collapseKelas">
                         <i class="fas fa-fw fa-cog"></i>

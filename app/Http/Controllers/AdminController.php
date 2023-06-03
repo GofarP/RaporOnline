@@ -247,10 +247,11 @@ class AdminController extends Controller
         if($request->file('foto'))
         {
             Storage::disk('public')->delete($siswa->foto);
-            $data_guru['foto']=$request->file('picture_path')->store('assets/siswa','public');
+            $data_siswa['foto']=$request->file('foto')->store('assets/siswa','public');
         }
 
-        Siswa::where('nisn',$siswa->nip)->update($data_siswa);
+        Siswa::where('nisn','=',$siswa->nisn)->update($data_siswa);
+
         return redirect()->route('index_data_siswa')->with('success','Sukses Mengubah Data Siswa');;
 
     }
@@ -258,7 +259,7 @@ class AdminController extends Controller
 
     public function destroyDataSiswa(Siswa $siswa)
     {
-        Siswa::where('nisn',$siswa->nisn)->delete();
+        Siswa::where('nisn','=',$siswa->nisn)->delete();
 
         return redirect()->route('index_data_siswa')->with('success',"Sukses Menghapus Data Siswa");
     }

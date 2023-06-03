@@ -29,78 +29,78 @@ Auth::routes();
 Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], function(){
     Route::get('home',[HomeController::class, 'index'])->name('admin_home');
 
-    Route::get('dataguru',[AdminController::class,'indexDataGuru'])->name('index_data_guru');
-    Route::get('tambahdataguru',[AdminController::class,'createDataGuru'])->name('create_data_guru');
-    Route::post('storedataguru',[AdminController::class,'storeDataGuru'])->name('store_data_guru');
-    Route::get('editdataguru/{guru}',[AdminController::class,'editDataGuru'])->name('edit_data_guru');
-    Route::put('updatedataguru/{guru}',[AdminController::class,'updateDataGuru'])->name('update_data_guru');
-    Route::delete('destroydataguru/{guru}',[AdminController::class,'destroyDataGuru'])->name('destroy_data_guru');
+    Route::get('guru/dataguru',[AdminController::class,'indexDataGuru'])->name('index_data_guru');
+    Route::get('guru/tambahdataguru',[AdminController::class,'createDataGuru'])->name('create_data_guru');
+    Route::post('guru/storedataguru',[AdminController::class,'storeDataGuru'])->name('store_data_guru');
+    Route::get('guru/editdataguru/{guru}',[AdminController::class,'editDataGuru'])->name('edit_data_guru');
+    Route::put('guru/updatedataguru/{guru}',[AdminController::class,'updateDataGuru'])->name('update_data_guru');
+    Route::delete('guru/destroydataguru/{guru}',[AdminController::class,'destroyDataGuru'])->name('destroy_data_guru');
 
 
-    Route::get('kredensialguru',[AdminController::class,'indexKredensialGuru'])->name('index_kredensial_guru');
-    Route::get('tambahkredensialguru',[AdminController::class,'createKredensialGuru'])->name('create_kredensial_guru');
-    Route::post('simpankredensialguru',[AdminController::class,'storeKredensialGuru'])->name('store_kredensial_guru');
-    Route::get('editkredensialguru/{user}',[AdminController::class,'editKredensialGuru'])->name('edit_kredensial_guru');
-    Route::put('updatekredensialguru/{user}',[AdminController::class,'updateKredensialGuru'])->name('update_kredensial_guru');
-    Route::delete('destroykredensialguru/{user}',[AdminController::class,'destroyKredensialGuru'])->name('destroy_kredensial_guru');
+    Route::get('kredensialguru/kredensialguru',[AdminController::class,'indexKredensialGuru'])->name('index_kredensial_guru');
+    Route::get('kredensiaguru/tambahkredensialguru',[AdminController::class,'createKredensialGuru'])->name('create_kredensial_guru');
+    Route::post('kredensialguru/simpankredensialguru',[AdminController::class,'storeKredensialGuru'])->name('store_kredensial_guru');
+    Route::get('kredensialguru/editkredensialguru/{user}',[AdminController::class,'editKredensialGuru'])->name('edit_kredensial_guru');
+    Route::put('kredensialguru/updatekredensialguru/{user}',[AdminController::class,'updateKredensialGuru'])->name('update_kredensial_guru');
+    Route::delete('kredensialguru/destroykredensialguru/{user}',[AdminController::class,'destroyKredensialGuru'])->name('destroy_kredensial_guru');
 
 
-    Route::get('kredensialsiswa',[AdminController::class,'indexKredensialSiswa'])->name('index_kredensial_siswa');
-    Route::get('tambahkredensialsiswa',[AdminController::class,'createKredensialSiswa'])->name('create_kredensial_siswa');
-    Route::post('simpankredensialsiswa',[AdminController::class,'storeKredensialSiswa'])->name('store_kredensial_siswa');
-    Route::get('editkredensialsiswa/{user}',[AdminController::class,'editKredensialSiswa'])->name('edit_kredensial_siswa');
-    Route::put('updatekredensialsiswa/{user}',[AdminController::class,'updateKredensialSiswa'])->name('update_kredensial_siswa');
-    Route::delete('destroykredensialsiswa/{user}',[AdminController::class,'destroyKredensialSiswa'])->name('destroy_kredensial_siswa');
+    Route::get('kredensialsiswa/kredensialsiswa',[AdminController::class,'indexKredensialSiswa'])->name('index_kredensial_siswa');
+    Route::get('kredensialsiswa/tambahkredensialsiswa',[AdminController::class,'createKredensialSiswa'])->name('create_kredensial_siswa');
+    Route::post('kredensialsiswa/simpankredensialsiswa',[AdminController::class,'storeKredensialSiswa'])->name('store_kredensial_siswa');
+    Route::get('kredensialsiswa/editkredensialsiswa/{user}',[AdminController::class,'editKredensialSiswa'])->name('edit_kredensial_siswa');
+    Route::put('kredensialsiswa/updatekredensialsiswa/{user}',[AdminController::class,'updateKredensialSiswa'])->name('update_kredensial_siswa');
+    Route::delete('kredensialsiswa/destroykredensialsiswa/{user}',[AdminController::class,'destroyKredensialSiswa'])->name('destroy_kredensial_siswa');
 
 
-    Route::get('datasiswa',[AdminController::class,'indexDataSiswa'])->name('index_data_siswa');
-    Route::get('tambahdatasiswa',[AdminController::class,'createDataSiswa'])->name('create_data_siswa');
-    Route::post('storedatasiswa',[AdminController::class,'storeDataSiswa'])->name('store_data_siswa');
-    Route::get('editdatasiswa/{siswa}',[AdminController::class,'editDataSiswa'])->name('edit_data_siswa');
-    Route::put('updatedatasiswa/{siswa}',[AdminController::class,'updateDataSiswa'])->name('update_data_siswa');
-    Route::delete('destroydatasiswa/{siswa}',[AdminController::class,'destroyDataSiswa'])->name('destroy_data_siswa');
+    Route::get('siswa/datasiswa',[AdminController::class,'indexDataSiswa'])->name('index_data_siswa');
+    Route::get('siswa/tambahdatasiswa',[AdminController::class,'createDataSiswa'])->name('create_data_siswa');
+    Route::post('siswa/storedatasiswa',[AdminController::class,'storeDataSiswa'])->name('store_data_siswa');
+    Route::get('siswa/editdatasiswa/{siswa}',[AdminController::class,'editDataSiswa'])->name('edit_data_siswa');
+    Route::put('siswa/updatedatasiswa/{siswa}',[AdminController::class,'updateDataSiswa'])->name('update_data_siswa');
+    Route::delete('siswa/destroydatasiswa/{siswa}',[AdminController::class,'destroyDataSiswa'])->name('destroy_data_siswa');
 
 
-    Route::get('datamatapelajaran',[AdminController::class,'indexdataMataPelajaran'])->name('index_data_mata_pelajaran');
-    Route::get('tambahdatamatapelajaran',[AdminController::class,'createDataMataPelajaran'])->name('create_data_mata_pelajaran');
-    Route::post('storedatamatapelajaran',[AdminController::class,'storedataMataPelajaran'])->name('store_data_mata_pelajaran');
-    Route::get('editdatamatapelajaran/{matapelajaran}',[AdminController::class,'editDataMataPelajaran'])->name('edit_data_mata_pelajaran');
-    Route::put('updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
-    Route::delete('deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
+    Route::get('mapel/datamatapelajaran',[AdminController::class,'indexdataMataPelajaran'])->name('index_data_mata_pelajaran');
+    Route::get('mapel/tambahdatamatapelajaran',[AdminController::class,'createDataMataPelajaran'])->name('create_data_mata_pelajaran');
+    Route::post('mapel/storedatamatapelajaran',[AdminController::class,'storedataMataPelajaran'])->name('store_data_mata_pelajaran');
+    Route::get('mapel/editdatamatapelajaran/{matapelajaran}',[AdminController::class,'editDataMataPelajaran'])->name('edit_data_mata_pelajaran');
+    Route::put('mapel/updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
+    Route::delete('mapel/deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
 
-    Route::get('datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
-    Route::get('tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
-    Route::post('storedatatahunajaran',[AdminController::class,'storeDataTahunAjaran'])->name('store_data_tahun_ajaran');
-    Route::get('editdatatahunajaran/{tahunajaran}',[AdminController::class,'editDatatahunAjaran'])->name('edit_data_tahun_ajaran');
-    Route::put('updatedatatahunajaran/{tahunajaran}',[AdminController::class,'updateDatatahunAjaran'])->name('update_data_tahun_ajaran');
-    Route::delete('deletedatatahunajaran/{tahunajaran}',[AdminController::class,'destroyDataTahunAjaran'])->name('destroy_data_tahun_ajaran');
-
-
-    Route::get('datakelas',[AdminController::class,'indexDataKelas'])->name('index_data_kelas');
-    Route::get('tambahdatakelas',[AdminController::class,'createDataKelas'])->name('create_data_kelas');
-    Route::post('storedatakelas',[AdminController::class,'storeDataKelas'])->name('store_data_kelas');
-    Route::get('editdatakelas/{kelas}',[AdminController::class,'editDataKelas'])->name('edit_data_kelas');
-    Route::put('updatedatakelas/{kelas}',[AdminController::class,'updateDataKelas'])->name('update_data_kelas');
-    Route::delete('deletedatakelas/{kelas}',[AdminController::class,'deleteDataKelas'])->name('destroy_data_kelas');
+    Route::get('tahunajaran/datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
+    Route::get('tahunajaran/tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
+    Route::post('tahunajaran/storedatatahunajaran',[AdminController::class,'storeDataTahunAjaran'])->name('store_data_tahun_ajaran');
+    Route::get('tahunajaran/editdatatahunajaran/{tahunajaran}',[AdminController::class,'editDatatahunAjaran'])->name('edit_data_tahun_ajaran');
+    Route::put('tahunajaran/updatedatatahunajaran/{tahunajaran}',[AdminController::class,'updateDatatahunAjaran'])->name('update_data_tahun_ajaran');
+    Route::delete('tahunajaran/deletedatatahunajaran/{tahunajaran}',[AdminController::class,'destroyDataTahunAjaran'])->name('destroy_data_tahun_ajaran');
 
 
-    Route::get('datanilaisiswa',[AdminController::class,'indexDataNilaiSiswa'])->name('index_data_nilai_siswa');
-    Route::get('tambahdatanilaisiswa',[AdminController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');
-    Route::get('editdatanilaisiswa',[AdminController::class,'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
+    Route::get('kelas/datakelas',[AdminController::class,'indexDataKelas'])->name('index_data_kelas');
+    Route::get('kelas/tambahdatakelas',[AdminController::class,'createDataKelas'])->name('create_data_kelas');
+    Route::post('kelas/storedatakelas',[AdminController::class,'storeDataKelas'])->name('store_data_kelas');
+    Route::get('kelas/editdatakelas/{kelas}',[AdminController::class,'editDataKelas'])->name('edit_data_kelas');
+    Route::put('kelas/updatedatakelas/{kelas}',[AdminController::class,'updateDataKelas'])->name('update_data_kelas');
+    Route::delete('kelas/deletedatakelas/{kelas}',[AdminController::class,'deleteDataKelas'])->name('destroy_data_kelas');
 
-    Route::get('datapenempatansiswa',[AdminController::class,'indexDataPenempatanSiswa'])->name('index_data_penempatan_siswa');
-    Route::get('tambahdatapenempatansiswa/{siswa}',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
-    Route::post('storedatapenempatansiswa',[AdminController::class,'storeDataPenempatanSiswa'])->name('store_data_penempatan_siswa');
-    Route::get('editdatapenempatansiswa/{penempatan}',[AdminController::class,'editDataPenempatanSiswa'])->name('edit_data_penempatan_siswa');
-    Route::put('updatedatapenempatansiswa/{penempatan}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_penempatan_siswa');
-    Route::delete('deletedatapenempatansiswa/{penempatan}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_penempatan_siswa');
 
-    Route::get('datamapelguru',[AdminController::class,'indexDataMapelGuru'])->name('index_data_mapel_guru');
-    Route::get('tambahdatamapelguru',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
-    Route::post('storedatamapelguru',[AdminController::class,'storeDataMapelGuru'])->name('store_data_mapel_guru');
-    Route::get('editdatamapelguru/{mapelguru}',[AdminController::class,'editDataMapelGuru'])->name('edit_data_mapel_guru');
-    Route::put('updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_mapel_guru');
-    Route::delete('deletedatamapelguru/{mapelguru}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_mapel_guru');
+    Route::get('nilaisiswa/datanilaisiswa',[AdminController::class,'indexDataNilaiSiswa'])->name('index_data_nilai_siswa');
+    Route::get('nilaisiswa/tambahdatanilaisiswa',[AdminController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');
+    Route::get('nilaisiswa/editdatanilaisiswa',[AdminController::class,'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
+
+    Route::get('penempatan/datapenempatansiswa',[AdminController::class,'indexDataPenempatanSiswa'])->name('index_data_penempatan_siswa');
+    Route::get('penempatan/tambahdatapenempatansiswa/{siswa}',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
+    Route::post('penempatan/storedatapenempatansiswa',[AdminController::class,'storeDataPenempatanSiswa'])->name('store_data_penempatan_siswa');
+    Route::get('penempatan/editdatapenempatansiswa/{penempatan}',[AdminController::class,'editDataPenempatanSiswa'])->name('edit_data_penempatan_siswa');
+    Route::put('penempatan/updatedatapenempatansiswa/{penempatan}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_penempatan_siswa');
+    Route::delete('penempatan/deletedatapenempatansiswa/{penempatan}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_penempatan_siswa');
+
+    Route::get('mapelguru/datamapelguru',[AdminController::class,'indexDataMapelGuru'])->name('index_data_mapel_guru');
+    Route::get('mapelguru/tambahdatamapelguru',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
+    Route::post('mapelguru/storedatamapelguru',[AdminController::class,'storeDataMapelGuru'])->name('store_data_mapel_guru');
+    Route::get('mapelguru/editdatamapelguru/{mapelguru}',[AdminController::class,'editDataMapelGuru'])->name('edit_data_mapel_guru');
+    Route::put('mapelguru/updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_mapel_guru');
+    Route::delete('mapelguru/deletedatamapelguru/{mapelguru}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_mapel_guru');
 
 
     Route::post('logout',[LogOutController::class,'logout'])->name('logout');
