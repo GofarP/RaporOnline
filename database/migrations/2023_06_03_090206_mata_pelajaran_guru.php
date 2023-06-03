@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('mata_pelajaran_guru',function(Blueprint $table) {
+        Schema::create('mata_pelajaran_guru',function (Blueprint $table) {
+
             $table->string('id_mapel_guru')->primary();
             $table->string('nip');
             $table->string('id_mapel');
@@ -22,10 +23,11 @@ return new class extends Migration
             $table->foreign('nip')->references('nip')
             ->on('guru');
 
-            $table->foreign('id_mapel')->references('nip')
+            $table->foreign('id_mapel')->references('id_mapel')
             ->on('mata_pelajaran');
 
         });
+
     }
 
     /**
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('mata_pelajaran_guru');
     }
 };

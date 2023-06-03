@@ -24,7 +24,7 @@
                 Admin
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item {{ Request::is('admin/home*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('admin_home')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -67,7 +67,7 @@
             </li>
 
               <!-- Menu MataPelajaran -->
-              <li class="nav-item  {{ Request::is('admin/mapel*') ? 'active' : '' }}">
+              <li class="nav-item  {{ Request::is('admin/matapelajaran*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataMapel"
                     aria-expanded="true" aria-controls="collapseDataMapel">
                     <i class="fas fa-fw fa-cog"></i>
@@ -111,7 +111,7 @@
                     <div id="collapseMapelGuru" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Mapel Guru:</h6>
-                            <a class="collapse-item" href="{{route(index_data_mapel_guru)}}">Lihat Mapel Guru</a>
+                            <a class="collapse-item" href="{{route('index_data_mapel_guru')}}">Lihat Mapel Guru</a>
                         </div>
                     </div>
                 </li>

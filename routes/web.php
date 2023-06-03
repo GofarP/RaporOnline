@@ -27,7 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], function(){
-    Route::get('home',[HomeController::class, 'index'])->name('admin_home');
+
+    Route::get('/home',[HomeController::class, 'index'])->name('admin_home');
 
     Route::get('guru/dataguru',[AdminController::class,'indexDataGuru'])->name('index_data_guru');
     Route::get('guru/tambahdataguru',[AdminController::class,'createDataGuru'])->name('create_data_guru');
@@ -61,12 +62,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::delete('siswa/destroydatasiswa/{siswa}',[AdminController::class,'destroyDataSiswa'])->name('destroy_data_siswa');
 
 
-    Route::get('mapel/datamatapelajaran',[AdminController::class,'indexdataMataPelajaran'])->name('index_data_mata_pelajaran');
-    Route::get('mapel/tambahdatamatapelajaran',[AdminController::class,'createDataMataPelajaran'])->name('create_data_mata_pelajaran');
-    Route::post('mapel/storedatamatapelajaran',[AdminController::class,'storedataMataPelajaran'])->name('store_data_mata_pelajaran');
-    Route::get('mapel/editdatamatapelajaran/{matapelajaran}',[AdminController::class,'editDataMataPelajaran'])->name('edit_data_mata_pelajaran');
-    Route::put('mapel/updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
-    Route::delete('mapel/deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
+    Route::get('matapelajaran/datamatapelajaran',[AdminController::class,'indexdataMataPelajaran'])->name('index_data_mata_pelajaran');
+    Route::get('matapelajaran/tambahdatamatapelajaran',[AdminController::class,'createDataMataPelajaran'])->name('create_data_mata_pelajaran');
+    Route::post('matapelajaran/storedatamatapelajaran',[AdminController::class,'storedataMataPelajaran'])->name('store_data_mata_pelajaran');
+    Route::get('matapelajaran/editdatamatapelajaran/{matapelajaran}',[AdminController::class,'editDataMataPelajaran'])->name('edit_data_mata_pelajaran');
+    Route::put('matapelajaran/updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
+    Route::delete('matapelajaran/deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
 
     Route::get('tahunajaran/datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
     Route::get('tahunajaran/tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
@@ -96,7 +97,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::delete('penempatan/deletedatapenempatansiswa/{penempatan}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_penempatan_siswa');
 
     Route::get('mapelguru/datamapelguru',[AdminController::class,'indexDataMapelGuru'])->name('index_data_mapel_guru');
-    Route::get('mapelguru/tambahdatamapelguru',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
+    Route::get('mapelguru/tambahdatamapelguru/{guru}',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
     Route::post('mapelguru/storedatamapelguru',[AdminController::class,'storeDataMapelGuru'])->name('store_data_mapel_guru');
     Route::get('mapelguru/editdatamapelguru/{mapelguru}',[AdminController::class,'editDataMapelGuru'])->name('edit_data_mapel_guru');
     Route::put('mapelguru/updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_mapel_guru');

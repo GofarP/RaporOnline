@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DataMapelGuru;
 use Illuminate\Database\Eloquent\Model;
 use Alfa6661\AutoNumber\AutoNumberTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class MataPelajaran extends Model
@@ -29,4 +30,10 @@ class MataPelajaran extends Model
     protected $table='mata_pelajaran';
 
     protected $guarded=[];
+
+
+    public function matapelajaranguru()
+    {
+        return $this->hasMany(DataMapelGuru::class,'id_mapel_guru');
+    }
 }

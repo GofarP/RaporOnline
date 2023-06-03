@@ -16,4 +16,10 @@ class Guru extends Model
     protected $table='guru';
 
     protected $guarded=[];
+
+    public function matapelajaranguru()
+    {
+        return $this->hasMany(DataMapelGuru::class,'id_mapel_guru');
+    }
+
 }

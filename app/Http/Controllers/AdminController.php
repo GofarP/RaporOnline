@@ -18,6 +18,7 @@ use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\DataGuruRequest;
+use App\Http\Requests\DataMapelGuruRequest;
 use App\Http\Requests\DataMapelRequest;
 use App\Http\Requests\DataSiswaRequest;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,7 @@ use App\Http\Requests\TahunAjaranRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
 use App\Http\Requests\PenempatanSiswaRequest;
+use App\Models\DataMapelGuru;
 
 class AdminController extends Controller
 {
@@ -338,9 +340,8 @@ class AdminController extends Controller
     public function indexDataMataPelajaran()
     {
         $data_mapel=MataPelajaran::all();
-        return view('admin.DataMapel.index',['mata_pelajaran'=>$data_mapel]);
+        return view('admin.DataMapel.index',['data_mapel'=>$data_mapel]);
     }
-
     public function createDataMataPelajaran()
     {
         return view('admin.DataMapel.tambah');
@@ -540,43 +541,83 @@ class AdminController extends Controller
 
 
     //Mapel Guru
-
     public function indexDataMapelGuru()
     {
-        $data_siswa=Siswa::all();
-        return view('admin.DataPenempatanSiswa.index',['data_siswa'=>$data_siswa]);
+        $data_mapel_guru=DataMapelGuru::select('mata_pelajaran_guru.*', 'guru.nama AS nama_guru', 'mata_pelajaran.nama AS nama_mapel')
+        ->with(['matapelajaran','guru'])
+        ->join('guru','mata_pelajaran_guru.nip','=','guru.nip')
+        ->join('mata_pelajaran','mata_pelajaran.id_mapel','=','mata_pelajaran_guru.id_mapel')
+        ->get();
+
+        $data_guru=Guru::all();
+
+        return view('admin.DataMapelGuru.index',['data_mapel_guru'=>$data_mapel_guru,'data_guru'=>$data_guru]);
     }
 
 
-    public function createDataMapelGuru(Siswa $siswa)
+    public function createDataMapelGuru(Guru $guru)
     {
-        $data_kelas=Kelas::all();
-        return view('admin.DataPenempatanSiswa.tambah',['data_siswa'=>$siswa,'data_kelas'=>$data_kelas]);
+        $data_mapel=MataPelajaran::all();
+        return view('admin.DataMapelGuru.tambah',['data_guru'=>$guru,'data_mapel'=>$data_mapel]);
     }
 
-    public function editDataMapelGuru(Siswa $siswa, PenempatanSiswa $penempatansiswa)
+    public function storeDataMapelGuru(DataMapelGuruRequest $request)
     {
-        return view('admin.DataPenempatanSiswa',['data_siswa'=>$siswa,
-        'data_penempatansiswa'=>$penempatansiswa]);
+        $data_mapel_guru=$request->all();
+
+
+        $cek_mapel_guru=DataMapelGuru::where([
+                ['id_mapel','=',$data_mapel_guru['id_mapel']],['nip','=',$data_mapel_guru['nip']]
+            ])
+        ->first();
+
+        if($cek_mapel_guru)
+        {
+            return redirect()->back()->with('error','Guru Ini Sudah mengambil Mata Pelajaran Ini Sebelumnya');
+        }
+
+        DataMapelGuru::create($data_mapel_guru);
+
+        return redirect()->route('index_data_mapel_guru')->with('success','Sukses Menambah Guru Mata Pelajaran');
+
     }
 
-    public function updateDataMapelGuru(Request $request, PenempatanSiswa $penempatansiswa)
-    {
 
-        return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Mengubah Penempatan Siswa');
+    public function editDataMapelGuru(DataMapelGuru $mapelguru)
+    {
+        $data_mapel_guru=DataMapelGuru::select('mata_pelajaran_guru.*', 'guru.nama AS nama_guru', 'mata_pelajaran.nama AS nama_mapel')
+        ->with(['matapelajaran','guru'])
+        ->join('guru','mata_pelajaran_guru.nip','=','guru.nip')
+        ->join('mata_pelajaran','mata_pelajaran.id_mapel','=','mata_pelajaran_guru.id_mapel')
+        ->where('id_mapel_guru','=',$mapelguru->id_mapel_guru)
+        ->first();
+
+        $data_mapel=MataPelajaran::all();
+
+
+        return view('admin.DataMapelGuru.edit',['data_mapel_guru'=>$data_mapel_guru,'data_mapel'=>$data_mapel]);
+    }
+
+    public function updateDataMapelGuru(Request $request, DataMapelGuru $mapelguru)
+    {
+        $data_mapel_guru=$request->except(['_token','_method']);
+
+        // $cek_mapel_guru=DataMapelGuru::where(['nip','=',$mapelguru->nip], ['id_mapel'])
+
+        DataMapelGuru::where('id_mapel_guru','=',$data_mapel->id_mapel_guru)->update();
+        return redirect()->route('index_data_mapel_guru')->with('success','Sukses Mengubah Guru Mata Pelajaran');
     }
 
 
-    public function deleteDataMapelGuru(PenempatanSiswa $penempatansiswa)
+    public function deleteDataMapelGuru(DataMapelGuru $mapelguru)
     {
-        PenempatanSiswa::where('id_penempatan_siswa')->delete();
+        DataMapelGuru::where('id_mapel_guru','=',$mapelguru->id_mapel_guru)->delete();
 
-        return redirect()->route('index_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
+        return redirect()->route('index_penempatan_siswa')->with('success','Sukses Menghapus Data Guru MataPelajaran');
     }
 
 
     //Guru Penempatan Siswa
-
     public function indexDataPenempatanSiswa()
     {
         $data_siswa=Siswa::all();

@@ -32,7 +32,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($mata_pelajaran as $mapel)
+                        @foreach ($data_mapel as $mapel)
                         <tr>
                             <td>{{$mapel->id_mapel}}</td>
                             <td>{{$mapel->nama}}</td>
