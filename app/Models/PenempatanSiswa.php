@@ -15,7 +15,7 @@ class PenempatanSiswa extends Model
     public function getAutoNumberOptions()
     {
         return [
-            'id_data' => [
+            'id_penempatan_siswa' => [
                 'format' => 'PNMPT-?', // autonumber format. '?' will be replaced with the generated number.
                 'length' => 5 // The number of digits in an autonumber
             ]

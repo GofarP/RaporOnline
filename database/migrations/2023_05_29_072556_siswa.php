@@ -14,12 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->string('NISN')->primary();
+            $table->string('nisn')->primary();
             $table->string('nama');
-            $table->enum('agama',["Islam", "Kristen Protestan", "Katolik", "Hindu", "Buddha", "Konghucu"]);
+            $table->string('email')->unique();
+            $table->enum('agama',["Islam", "Protestan", "Katolik", "Hindu", "Buddha", "Konghucu"]);
             $table->string('tempat_lahir');
             $table->string('tanggal_lahir');
-            $table->enum('jenis_kelamin',['Laki-Laki','Perempuan']);
+            $table->enum('jenis_kelamin',['Pria','Wanita']);
             $table->string('alamat');
             $table->string('foto');
             $table->timestamps();

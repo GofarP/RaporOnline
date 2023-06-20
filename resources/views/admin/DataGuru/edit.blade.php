@@ -48,21 +48,32 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="email" class="mt-3 mb-2">Email Guru:</label>
+                    <input type="email" name="email" id="email" placeholder="Masukkan Email Guru"  data-parsley-required="true"
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email',$data_guru->email) }}">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Guru:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
-                        <option value="Islam">Islam</option>
-                        <option value="Protestan" >Protestan</option>
-                        <option value="Katholik">Katholik</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Buddha">Buddha</option>
-                        <option value="Konghucu">Konghucu</option>
+                        <option value="Islam" {{$data_guru->agama=='Islam' ? 'selected' : ''}}>Islam</option>
+                        <option value="Protestan" {{$data_guru->agama=='Protestan' ? 'selected' : ''}}>Protestan</option>
+                        <option value="Katolik" {{$data_guru->agama=='Katolik' ? 'selected' : ''}}>Katholik</option>
+                        <option value="Hindu" {{$data_guru->agama=='Hindu' ? 'selected' : ''}}>Hindu</option>
+                        <option value="Buddha" {{$data_guru->agama=='Buddha' ? 'selected' : ''}}>Buddha</option>
+                        <option value="Konghucu" {{$data_guru->agama=='Konghucu' ? 'selected' : ''}}>Konghucu</option>
 
                     </select>
                         @error('agama')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
-                    @enderror
+                        @enderror
                 </div>
 
                 <div class="mb-3">

@@ -29,6 +29,7 @@ class DataGuruRequest extends FormRequest
         return [
             "nip"=>"required|numeric|unique:guru",
             "nama"=>"required|max:255",
+            "email"=>"required|email|unique:guru",
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
@@ -47,6 +48,9 @@ class DataGuruRequest extends FormRequest
             'nip.unique'=>"Pengguna Dengan NIP Ini Sudah Ditambahkan",
             'nip.numeric'=>"NIP Harus Menggunakan Angka",
             'nama.required'=>"Silahkan Isi Nama Guru",
+            'email.required'=>"Silahkan Isi Email Guru",
+            'email.email'=>"Harus Berupa Email",
+            'email.unique'=>"Email Ini Sudah Digunakan",
             'agama.required'=>"Silahkan Isi Agama Guru",
             'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
             'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Guru",

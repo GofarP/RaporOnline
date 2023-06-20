@@ -30,15 +30,29 @@
                                 <th>Mata Pelajaran</th>
                                 <th>Nilai</th>
                                 <th>Tahun Ajaran</th>
+                                <th>Action</th>
                             </tr>
 
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+
+                            @foreach ($data_nilai as $data )
+                                <td>{{$data->NISN}}</td>
+                                <td>{{$data->nama_siswa}}</td>
+                                <td>{{$data->kelas}}</td>
+                                <td>{{$data->nama_mapel}}</td>
+                                <td>{{$data->nilai}}</td>
+                                <td>{{$data->tahun_ajaran}}</td>
+                                <td>
+                                    <a href="{{route('edit_data_nilai_siswa',$data->id_nilai_master)}}" class="btn btn-warning">Edit Nilai</a>
+                                    <br>
+                                    <form action="{{route('destroy_data_nilai_siswa',$data->id_nilai_master)}}"
+                                        method="POST"  class="d-inline">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Nilai Siswa Ini?')" >Hapus Nilai</button>
+                                    </form>
+                                </td>
+                            @endforeach
                             </tbody>
                         </thead>
                     </table>
@@ -57,6 +71,7 @@
                     <table class="table table-bordered" id="tblSiswa" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>No.</th>
                                 <th>NISN</th>
                                 <th>Nama</th>
                                 <th>Kelas</th>
@@ -64,19 +79,20 @@
                                 <th>Action</th>
                             </tr>
 
+                            <?php $no=1; ?>
+                            @foreach ($data_penempatan_siswa as $data )
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$no}}</td>
+                                <td>{{$data->nisn}}</td>
+                                <td>{{$data->nama}}</td>
+                                <td>{{$data->kelas}}</td>
+                                <td>{{$data->tahun_ajaran}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-success mb-2">Tambah Nilai</a>
-                                    <br>
-                                    <a href="#" class="btn btn-warning mb-2">Edit Nilai</a>
-                                    <br>
-                                    <a href="#" class="btn btn-danger mb-2">Hapus Nilai</a>
+                                    <a href="{{route('create_data_nilai_siswa',$data->id_penempatan_siswa)}}" class="btn btn-success mb-2">Tambah Nilai</a>
                                 </td>
                             </tbody>
+                            <?php $no++ ?>
+                            @endforeach
                         </thead>
                     </table>
                 </div>

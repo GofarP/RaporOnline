@@ -19,6 +19,15 @@
         </div>
 
         <div class="card-body">
+
+            <div class="mb-3 mt-3">
+                @if($data_tahun_ajaran_aktif != null)
+                    <h3>Tahun Ajaran Aktif: {{$data_tahun_ajaran_aktif->tahun_ajaran}}</h3>
+                @else
+                    <h3>Tahun Ajaran Belum Dipilih</h3>
+                @endif
+            </div>
+
             <a href="{{route('create_data_tahun_ajaran')}}" class="btn btn-success float-right mb-3">Tambah Tahun Ajaran</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

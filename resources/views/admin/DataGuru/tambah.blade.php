@@ -33,7 +33,6 @@
                     @enderror
                 </div>
 
-
                 <div class="mb-3">
                     <label for="nama" class="mt-3 mb-2">Nama Guru:</label>
                     <input type="text" name="nama" id="nama" placeholder="Masukkan nama Guru"  data-parsley-required="true"
@@ -45,12 +44,26 @@
                     @enderror
                 </div>
 
+
+                <div class="mb-3">
+                    <label for="email" class="mt-3 mb-2">Email Guru:</label>
+                    <input type="email" name="email" id="email" placeholder="Masukkan Email Guru"  data-parsley-required="true"
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+
+
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Guru:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
                         <option value="Islam">Islam</option>
                         <option value="Protestan">Protestan</option>
-                        <option value="Katholik">Katholik</option>
+                        <option value="Katolik">Katolik</option>
                         <option value="Hindu">Hindu</option>
                         <option value="Buddha">Buddha</option>
                         <option value="Konghucu">Konghucu</option>

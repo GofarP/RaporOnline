@@ -15,7 +15,7 @@
     @section('content')
     <div class="card shadow mb-4 w-100" >
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"> Tambah Data Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-primary"> Edit Data Siswa</h6>
         </div>
 
         <div class="card-body">
@@ -50,12 +50,12 @@
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Siswa:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">
-                        <option value="Islam">Islam</option>
-                        <option value="Protestan">Protestan</option>
-                        <option value="Katholik">Katolik</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Buddha">Buddha</option>
-                        <option value="Konghucu">Konghucu</option>
+                        <option value="Islam" {{$siswa->agama=='Islam' ? 'selected' : ''}}>Islam</option>
+                        <option value="Protestan" {{$siswa->agama=='Protestan' ? 'selected' : ''}}>Protestan</option>
+                        <option value="Katholik" {{$siswa->agama=='Katholik' ? 'selected' : ''}}>Katolik</option>
+                        <option value="Hindu" {{$siswa->agama=='Hindu' ? 'selected' : ''}}>Hindu</option>
+                        <option value="Buddha" {{$siswa->agama=='Buddha' ? 'selected' : ''}}>Buddha</option>
+                        <option value="Konghucu" {{$siswa->agama=='Konghucu' ? 'selected' : ''}}>Konghucu</option>
 
                     </select>
                         @error('agama')
@@ -68,8 +68,8 @@
                 <div class="mb-3">
                     <label for="jenis_kelamin" class="mt-3 mb-2">Jenis Kelamin:</label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" id="jenis_kelamin">
-                        <option value="Pria">Pria</option>
-                        <option value="Wanita">Wanita</option>
+                        <option value="Pria" {{$siswa->jenis_kelamin=="Pria" ? 'selected' : ''}}>Pria</option>
+                        <option value="Wanita" {{$siswa->jenis_kelamin=="Wanita" ? 'selected' : ''}}>Wanita</option>
                     </select>
                         @error('jenis_kelamin')
                             <div class="invalid-feedback">

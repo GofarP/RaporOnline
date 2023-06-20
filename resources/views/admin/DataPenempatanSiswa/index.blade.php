@@ -19,6 +19,7 @@
         </div>
 
         <div class="card-body">
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="tblSiswa" width="100%" cellspacing="0">
                     <thead>
@@ -33,6 +34,7 @@
                         <tbody>
 
                             @foreach ($data_penempatan as $penempatan)
+                            <tr>
                                 <td>{{$penempatan->nisn}}</td>
                                 <td>{{$penempatan->nama}}</td>
                                 <td>{{$penempatan->kelas}}</td>
@@ -47,6 +49,7 @@
                                         <button href="#" class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Penempatan Siswa Ini?')">Hapus</button>
                                     </form>
                                 </td>
+                            </tr>
                             @endforeach
 
                         </tbody>

@@ -30,6 +30,7 @@ class DataSiswaRequest extends FormRequest
         return [
             "nisn"=>"required|numeric|unique:siswa",
             "nama"=>"required|max:255",
+            "email"=>'required|email|unique:siswa',
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
@@ -46,6 +47,9 @@ class DataSiswaRequest extends FormRequest
             'nisn.unique'=>"Pengguna Dengan NISN Ini Sudah Ditambahkan",
             'nip.numeric'=>"NISN Harus Menggunakan Angka",
             'nama.required'=>"Silahkan Isi Nama Siswa",
+            'email.required'=>"Silahkan Isi Email Siswa",
+            'email.email'=>'Harus Berupa Email',
+            'email.unique'=>'Email Ini Sudah Digunakan',
             'agama.required'=>"Silahkan Isi Agama Siswa",
             'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
             'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Siswa",

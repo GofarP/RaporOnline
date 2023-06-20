@@ -34,6 +34,7 @@
                         <tbody>
 
                             @foreach ($data_mapel_guru as $datamapelguru)
+                            <tr>
                                 <td>{{$datamapelguru->nip}}</td>
                                 <td>{{$datamapelguru->nama_guru}}</td>
                                 <td>{{$datamapelguru->nama_mapel}}</td>
@@ -47,6 +48,7 @@
                                         <button href="#" class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Penempatan Siswa Ini?')">Hapus</button>
                                     </form>
                                 </td>
+                            </tr>
                             @endforeach
 
                         </tbody>

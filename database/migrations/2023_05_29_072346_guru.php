@@ -14,12 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('guru', function (Blueprint $table) {
-            $table->string('NIP')->primary();
+            $table->string('nip')->primary();
             $table->string('nama');
-            $table->enum('agama',["Islam", "Kristen Protestan", "Katolik", "Hindu", "Buddha", "Konghucu"]);
+            $table->string('email')->unique();
+            $table->enum('agama',["Islam", "Protestan", "Katolik", "Hindu", "Buddha", "Konghucu"]);
             $table->string('tempat_lahir');
             $table->string('tanggal_lahir');
-            $table->enum('jenis_kelamin',['Laki-Laki','Perempuan']);
+            $table->enum('jenis_kelamin',['Pria','Wanita']);
             $table->string('alamat');
             $table->string('foto');
             $table->string('pendidikan_terakhir');

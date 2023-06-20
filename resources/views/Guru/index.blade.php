@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="row">
                   <div class="col-sm text-center">
-                    <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp"
+                    <img src="{{ asset('storage/'.$data_guru->foto) }}"
                     style="height:240px; width:190px " >
                   </div>
                   <div class="col-sm">
@@ -33,37 +33,37 @@
                         <table class="table" width="100%">
                             <tbody>
                                 <tr>
-                                    <td>NISN:</td>
-                                    <td>8392839238</td>
+                                    <td>NIP:</td>
+                                    <td>{{$data_guru->nip}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>Nama:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_guru->nama}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Agama:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_guru->agama}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Tempat Tanggal Lahir:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_guru->tempat_lahir}}, {{$data_guru->tanggal_lahir}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Jenis Kelamin:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_guru->jenis_kelamin}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Alamat:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_guru->alamat}}</td>
                                 </tr>
 
                             </tbody>
@@ -83,9 +83,9 @@
 
         <div class="card-body">
             <ul>
-                <li>Matematika</li>
-                <li>Statistik</li>
-                <li>Aljabar Linear</li>
+                @foreach ($data_mapel_diampu as $data)
+                    <li>{{$data->nama}}</li>
+                @endforeach
             </ul>
         </div>
     </div>

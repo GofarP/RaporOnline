@@ -47,7 +47,7 @@
                     <label for="id_mapel" class="mt-3 mb-2">Pilih Mata Pelajaran:</label>
                     <select class="form-control @error('id_mapel') is-invalid @enderror" name="id_mapel" id="id_mapel">
                        @foreach ($data_mapel as $mapel)
-                         <option value="{{$mapel->id_mapel}}">{{$mapel->nama}}</option>
+                         <option value="{{$mapel->id_mapel}}" {{$data_mapel_guru->nama_mapel==$mapel->nama ? 'selected' : ''}}>{{$mapel->nama}}</option>
                        @endforeach
 
                        @error('id_kelas')

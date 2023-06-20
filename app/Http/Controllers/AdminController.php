@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Agama;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
-use App\Enums\Agama;
 use App\Enums\JenisKelamin;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use App\Models\DataMapelGuru;
 use App\Models\MataPelajaran;
 use App\Models\PenempatanSiswa;
 use Illuminate\Validation\Rule;
+use App\Models\TahunAjaranAktif;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
 use App\Http\Requests\DataGuruRequest;
-use App\Http\Requests\DataMapelGuruRequest;
 use App\Http\Requests\DataMapelRequest;
 use App\Http\Requests\DataSiswaRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\TahunAjaranRequest;
+use App\Http\Requests\DataMapelGuruRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
 use App\Http\Requests\PenempatanSiswaRequest;
-use App\Models\DataMapelGuru;
+use App\Http\Requests\TahunAjaranAktifRequest;
 
 class AdminController extends Controller
 {
@@ -67,6 +69,7 @@ class AdminController extends Controller
         $request->validate([
             "nip"=>['required','numeric',Rule::unique('guru', 'nip')->ignore($guru->nip,'nip')],
             "nama"=>"required|max:255",
+            "email"=>['required','email',Rule::unique('guru','email')->ignore($guru->email,'email')],
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
@@ -79,6 +82,9 @@ class AdminController extends Controller
             'nip.unique'=>"Pengguna Dengan NIP Ini Sudah Ditambahkan",
             'nip.numeric'=>"NIP Harus Menggunakan Angka",
             'nama.required'=>"Silahkan Isi Nama Guru",
+            'email.required'=>"Silahkan Isi Email Guru",
+            'email.email'=>"Harus Berupa Email",
+            'email.unique'=>"Email Sudah Digunakan",
             'agama.required'=>"Silahkan Isi Agama Guru",
             'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
             'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Guru",
@@ -221,6 +227,7 @@ class AdminController extends Controller
         $request->validate([
             "nisn"=>['required','numeric',Rule::unique('siswa', 'nisn')->ignore($siswa->nisn,'nisn')],
             "nama"=>"required|max:255",
+            "email"=>['required','email',Rule::unique('siswa', 'email')->ignore($siswa->email,'nip')],
             "agama"=>['required',new Enum(Agama::class)],
             "tempat_lahir"=>"required|string|max:255",
             'tanggal_lahir'=>'required|date_format:"d-m-Y"',
@@ -232,6 +239,9 @@ class AdminController extends Controller
             'nisn.unique'=>"Pengguna Dengan NISN Ini Sudah Ditambahkan",
             'nisn.numeric'=>"NISN Harus Menggunakan Angka",
             'nama.required'=>"Silahkan Isi Nama Siswa",
+            'email.required'=>"Silahkan Masukkan Email Siswa",
+            'email.email'=>'Harus Berupa Email',
+            'email.unique'=>'Email ini sudah digunakan sebelumnya',
             'agama.required'=>"Silahkan Isi Agama Siswa",
             'agama.Illuminate\Validation\Rules\Enum'=>"Pilihan Agama Tidak Valid",
             'tempat_lahir.required'=>"Silahkan Isi Tempat Lahir Siswa",
@@ -399,7 +409,13 @@ class AdminController extends Controller
     {
         $data_tahun_ajaran=TahunAjaran::all();
 
-        return view('admin.DataTahunAjaran.index',['tahun_ajaran'=>$data_tahun_ajaran]);
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::select('tahun_ajaran.tahun_ajaran')
+        ->with('tahunajaran')
+        ->join('tahun_ajaran','tahun_ajaran.id_tahun_ajaran','=','tahun_ajaran_aktif.id_tahun_ajaran')
+        ->where('tahun_ajaran_aktif.id_tahun_ajaran_aktif','=',1)->first();
+
+
+        return view('admin.DataTahunAjaran.index',['tahun_ajaran'=>$data_tahun_ajaran],['data_tahun_ajaran_aktif'=>$data_tahun_ajaran_aktif]);
     }
 
     public function createDataTahunAjaran()
@@ -473,7 +489,6 @@ class AdminController extends Controller
 
         return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menambahkan Tahun Ajaran');
 
-
     }
 
 
@@ -483,6 +498,35 @@ class AdminController extends Controller
 
          return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menghapus Tahun Ajaran');
     }
+
+    public function showTahunAjaran()
+    {
+        $data_tahun_ajaran=TahunAjaran::all();
+
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
+
+        return view('admin.DataTahunAjaran.tahunajaran',['data_tahun_ajaran'=>$data_tahun_ajaran],
+        ['tahun_ajaran_aktif'=>$data_tahun_ajaran_aktif]);
+    }
+
+    public function setTahunAjaranAktif(TahunAjaranAktifRequest $request)
+    {
+        $data_tahun_ajaran=$request->all();
+
+        TahunAjaranAktif::create($data_tahun_ajaran);
+
+        return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Menetapkan Tahun Ajaran Baru');
+
+    }
+
+    public function updateTahunAjaranAktif(TahunAjaranAktifRequest $request)
+    {
+        $data_tahun_ajaran=$request->except(['_token','_method']);
+        TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->update($data_tahun_ajaran);
+
+        return redirect()->route('index_data_tahun_ajaran')->with('success','Sukses Mengubah Tahun Ajaran Baru');
+    }
+
 
 
     public function indexDataKelas()
@@ -598,14 +642,38 @@ class AdminController extends Controller
         return view('admin.DataMapelGuru.edit',['data_mapel_guru'=>$data_mapel_guru,'data_mapel'=>$data_mapel]);
     }
 
+
     public function updateDataMapelGuru(Request $request, DataMapelGuru $mapelguru)
     {
-        $data_mapel_guru=$request->except(['_token','_method']);
 
-        // $cek_mapel_guru=DataMapelGuru::where(['nip','=',$mapelguru->nip], ['id_mapel'])
+        $request->validate([
+            'nip'=>'required|numeric|exists:guru,nip',
+            'id_mapel'=>'required|exists:mata_pelajaran,id_mapel',
+        ],
+        [
+            'nip.required'=>"Nip Guru Tidak Valid, Silahkan Pilih Ulang Guru",
+            'nip.numeric'=>'Nip Guru Harus Berupa Angka',
+            'nip.exists'=>'Nip Guru Tidak Ditemukan, Silahkan Pilih Ulang Guru',
+            'id_mapel.required'=>'Id Mapel Tidak Valid, Silahkan refresh browser',
+            'id_mapel.exists'=>'Id Mapel Tidak Ditemukan, Silahkan Refresh browser',
+        ]);
 
-        DataMapelGuru::where('id_mapel_guru','=',$data_mapel->id_mapel_guru)->update();
-        return redirect()->route('index_data_mapel_guru')->with('success','Sukses Mengubah Guru Mata Pelajaran');
+        $id_mapel=$request->id_mapel;
+
+        $cek_mapel_guru=DataMapelGuru::where([['id_mapel','=',$id_mapel], ['nip','=',$mapelguru->nip]])->first();
+
+        if($cek_mapel_guru)
+        {
+            return redirect()->back()->with('error',"Guru Sudah Mengambil Data Ini Sebelumnya");
+        }
+
+        else
+        {
+            $data_mapel_guru=$request->except(['_method','_token']);
+            DataMapelguru::where('id_mapel_guru','=',$mapelguru->id_mapel_guru)->update($data_mapel_guru);
+            return redirect()->route('index_data_mapel_guru')->with('success',"Sukses Mengubah Guru Matapelajaran");
+        }
+
     }
 
 
@@ -647,11 +715,15 @@ class AdminController extends Controller
     {
         $data_penempatan=$request->all();
 
-        $cek_penempatan=PenempatanSiswa::where('nisn','=',$data_penempatan['nisn'])->first();
 
-        if($cek_penempatan)
+        $cek_siswa=PenempatanSiswa::where('nisn','=',$data_penempatan['nisn'])
+        ->where('id_tahun_ajaran','=',$data_penempatan['id_tahun_ajaran'])
+        ->first();
+
+
+        if($cek_siswa)
         {
-            return redirect()->back()->with('error','Siswa Sudah Ditempatkan Di Kelas Lain');
+            return redirect()->back()->with('error','Siswa Sudah Ditempatkan Di Kelas Lain untuk Tahun Ajaran Ini');
         }
 
         else
@@ -685,8 +757,17 @@ class AdminController extends Controller
     {
         $data_penempatan=$request->except(['_method','_token']);
 
+        $tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
+
+
+        $data_penempatan['id_tahun_ajaran']=$tahun_ajaran_aktif->id_tahun_ajaran;
+
+        // $cek_siswa=PenempatanSiswa::where('nisn','=',$data_penempatan['nisn'])
+        // ->where('id_tahun_ajaran','=',$data_penempatan['id_tahun_ajaran'])
+        // ->first();
+
         PenempatanSiswa::where('id_penempatan_siswa','=',$penempatan->id_penempatan_siswa)
-        ->update($data_penempatan);
+         ->update($data_penempatan);
 
         return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Mengubah Penempatan Siswa');
     }

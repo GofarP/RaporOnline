@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penempatan_siswa', function (Blueprint $table){
-            $table->string('id_data')->primary();
-            $table->string('id_kelas');
-            $table->string('id_siswa');
+        Schema::create('tahun_ajaran',function (Blueprint $table) {
+            $table->string('id_tahun_ajaran')->primary();
+            $table->string('tahun_ajaran');
+            $table->timestamps();
+
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('tahun_ajaran');
     }
 };

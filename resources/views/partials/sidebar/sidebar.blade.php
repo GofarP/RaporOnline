@@ -48,6 +48,8 @@
                 </div>
             </li>
 
+
+
             <!-- Menu Data Siswa -->
             <li class="nav-item  {{ Request::is('admin/siswa*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataSiswa"
@@ -145,6 +147,7 @@
                             <h6 class="collapse-header">Tahun Ajaran:</h6>
                             <a class="collapse-item" href="{{route('index_data_tahun_ajaran')}}">Lihat Tahun Ajaran</a>
                             <a class="collapse-item" href="{{route('create_data_tahun_ajaran')}}">Tambah Tahun Ajaran</a>
+                            <a class="collapse-item" href="{{route('show_tahun_ajaran')}}">Tetapkan Tahun Ajaran</a>
                         </div>
                     </div>
                 </li>
@@ -181,9 +184,10 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{{route('guru_home')}}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
+                        <span>Dashboard</span>
+                    </a>
                 </li>
 
                 <!-- Nav Item - Pages Collapse Menu -->
@@ -198,8 +202,7 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Nilai Siswa:</h6>
-                            <a class="collapse-item" href="{{route('nilaisiswa.index')}}">Data Nilai Siswa</a>
-                            <a class="collapse-item" href="{{route('nilaisiswa.create')}}">Tambah Nilai Siswa</a>
+                            <a class="collapse-item" href="{{route('index_data_nilai_siswa')}}">Data Nilai Siswa</a>
                         </div>
                     </div>
                 </li>
@@ -217,7 +220,7 @@
 
                     <!-- Dashboard -->
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="{{route('siswa_home')}}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Lihat Nilai</span></a>
                     </li>

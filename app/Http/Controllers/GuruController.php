@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use App\Models\DataMapelGuru;
+use App\Models\PenempatanSiswa;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class GuruController extends Controller
 {
@@ -20,7 +24,27 @@ class GuruController extends Controller
 
     public function index()
     {
-        return view('guru.index');
+        // $data_siswa=PenempatanSiswa::select('siswa.nisn','siswa.nama','kelas.kelas','tahun_ajaran.id_tahun_ajaran')
+        // ->with(['siswa','tahunajaran','kelas'])
+        // ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
+        // ->join('tahun_ajaran','penempatan_siswa.id_tahun_ajaran','=','tahun_ajaran.id_tahun_ajaran')
+        // ->join('kelas','penempatan_siswa.id_kelas','=','kelas.id_kelas')
+        // ->get();
+
+
+        $email_pengguna=Auth::user()->email;
+        $data_guru=Guru::where('email','=',$email_pengguna)->first();
+
+        $data_mapel_diampu=DataMapelGuru::select('mata_pelajaran_guru.*','guru.nama','mata_pelajaran.nama')
+        ->with('matapelajaran','guru')
+        ->join('guru','guru.nip','=','mata_pelajaran_guru.nip')
+        ->join('mata_pelajaran','mata_pelajaran.id_mapel','=','mata_pelajaran_guru.id_mapel')
+        ->where('mata_pelajaran_guru.nip','=',$data_guru->nip)
+        ->get();
+
+        $data_guru=Guru::where('email','=',$email_pengguna)->first();
+
+        return view('guru.index',['data_mapel_diampu'=>$data_mapel_diampu,'data_guru'=>$data_guru]);
     }
 
     /**
@@ -30,7 +54,7 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        return "Hello";
     }
 
     /**

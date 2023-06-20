@@ -36,4 +36,10 @@ class MataPelajaran extends Model
     {
         return $this->hasMany(DataMapelGuru::class,'id_mapel_guru');
     }
+
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class,'id_mapel');
+    }
 }

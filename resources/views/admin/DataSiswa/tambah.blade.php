@@ -47,6 +47,20 @@
                     @enderror
                 </div>
 
+
+                <div class="mb-3">
+                    <label for="email" class="mt-3 mb-2">Email Siswa:</label>
+                    <input type="email" name="email" id="email" placeholder="Masukkan Email Siswa"  data-parsley-required="true"
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+
+
                 <div class="mb-3">
                     <label for="agama" class="mt-3 mb-2">Agama Siswa:</label>
                     <select class="form-control @error('agama') is-invalid @enderror" name="agama" id="agama">

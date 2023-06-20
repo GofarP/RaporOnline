@@ -8,6 +8,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\SiswaController;
+use App\Models\Nilai;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::put('tahunajaran/updatedatatahunajaran/{tahunajaran}',[AdminController::class,'updateDatatahunAjaran'])->name('update_data_tahun_ajaran');
     Route::delete('tahunajaran/deletedatatahunajaran/{tahunajaran}',[AdminController::class,'destroyDataTahunAjaran'])->name('destroy_data_tahun_ajaran');
 
+    Route::get('tahunajaran/showtahunajaran',[AdminController::class,'showTahunAjaran'])->name('show_tahun_ajaran');
+    Route::post('tahunajaran/settahunajaranaktif',[AdminController::class,'setTahunAjaranAktif'])->name('set_tahun_ajaran_aktif');
+    Route::put('tahunajaran/updatetahunajaranaktif/{id}',[AdminController::class,'updatetahunAjaranAktif'])->name('update_tahun_ajaran_aktif');
 
     Route::get('kelas/datakelas',[AdminController::class,'indexDataKelas'])->name('index_data_kelas');
     Route::get('kelas/tambahdatakelas',[AdminController::class,'createDataKelas'])->name('create_data_kelas');
@@ -100,8 +104,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::get('mapelguru/tambahdatamapelguru/{guru}',[AdminController::class,'createDataMapelGuru'])->name('create_data_mapel_guru');
     Route::post('mapelguru/storedatamapelguru',[AdminController::class,'storeDataMapelGuru'])->name('store_data_mapel_guru');
     Route::get('mapelguru/editdatamapelguru/{mapelguru}',[AdminController::class,'editDataMapelGuru'])->name('edit_data_mapel_guru');
-    Route::put('mapelguru/updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataPenempatanSiswa'])->name('update_data_mapel_guru');
+    Route::put('mapelguru/updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataMapelGuru'])->name('update_data_mapel_guru');
     Route::delete('mapelguru/deletedatamapelguru/{mapelguru}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_mapel_guru');
+
 
 
     Route::post('logout',[LogOutController::class,'logout'])->name('logout');
@@ -112,9 +117,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
 
 Route::group(['prefix' => 'guru',],function(){
     Route::get('home',[GuruController::class, 'index'])->name('guru_home');
-    Route::resources([
-        'nilaisiswa'=>NilaiController::class
-    ]);
+
+    Route::get('nilaisiswa/datanilaisiswa',[NilaiController::class,'indexDataNilaiSiswa'])->name('index_data_nilai_siswa');
+
+    Route::get('nilaisiswa/tambahnilaisiswa/{penempatansiswa}',[NilaiController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');
+
+    Route::post('nilaisiswa/storenilaisiswa/{penempatansiswa}',[NilaiController::class,'storeDataNilaiSiswa'])->name('store_data_nilai_siswa');
+
+    Route::get('nilaisisiswa/editnilaisiswa/{nilai}',[NilaiController::class, 'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
+
+    Route::put('nilaisiswa/updatedatanilaisiswa/{nilai}',[NilaiController::class,'updateDataNilaiSiswa'])->name('update_data_nilai_siswa');
+
+    Route::delete('nilaisiswa/deletenilaisiswa/{nilai}',[NilaiController::class,'destroyDataNilaiSiswa'])->name('destroy_data_nilai_siswa');
+
 });
 
 
