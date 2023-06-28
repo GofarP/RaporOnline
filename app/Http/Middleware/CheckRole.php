@@ -26,6 +26,6 @@ class CheckRole
                 return $next($request);
             // }
         }
-        // return redirect('/login');
+        return redirect('/login');
     }
 }

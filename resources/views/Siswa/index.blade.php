@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="row">
                   <div class="col-sm text-center">
-                    <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp"
+                    <img src="{{asset('storage/'.$data_siswa->foto)}}"
                     style="height:240px; width:190px " >
                   </div>
                   <div class="col-sm">
@@ -34,36 +34,36 @@
                             <tbody>
                                 <tr>
                                     <td>NISN:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->nisn}}</td>
                                 </tr>
 
                                 <tr>
                                     <td>Nama:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->nama}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Agama:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->agama}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Tempat Tanggal Lahir:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->tempat_lahir, $data_siswa->tanggal_lahir}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Jenis Kelamin:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->jenis_kelamin}}</td>
                                 </tr>
 
 
                                 <tr>
                                     <td>Alamat:</td>
-                                    <td>8392839238</td>
+                                    <td>{{$data_siswa->alamat}}</td>
                                 </tr>
 
                             </tbody>
@@ -95,11 +95,15 @@
                     </thead>
 
                     <tbody>
-                        <td>Sejarah</td>
-                        <td>90</td>
-                        <td>Anu Siapa ini</td>
-                        <td>7E</td>
-                        <td>2013-2014</td>
+
+                        @foreach ($data_nilai as $data)
+                            <td>{{$data->nama_mapel}}</td>
+                            <td>{{$data->nilai}}</td>
+                            <td>{{$data->nama_guru}}</td>
+                            <td>{{$data->kelas}}</td>
+                            <td>{{$data->tahun_ajaran}}</td>
+                        @endforeach
+
                     </tbody>
 
             </div>

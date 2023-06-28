@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nilai;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
@@ -14,8 +17,19 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $data_siswa=Siswa::all();
-        return view('siswa.index',$data_siswa);
+        $email_pengguna=Auth::user()->email;
+
+        $data_siswa=Siswa::where('email','=',$email_pengguna)->first();
+
+        $data_nilai = Nilai::select('nilai_master.*', 'guru.nama AS nama_guru', 'mata_pelajaran.nama AS nama_mapel', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->join('guru', 'nilai_master.nip', '=', 'guru.nip')
+        ->join('mata_pelajaran', 'nilai_master.id_mapel', '=', 'mata_pelajaran.id_mapel')
+        ->join('tahun_ajaran', 'nilai_master.id_tahun_ajaran', '=', 'tahun_ajaran.id_tahun_ajaran')
+        ->join('kelas', 'nilai_master.id_kelas', '=', 'kelas.id_kelas')
+        ->where('nilai_master.nisn',$data_siswa->nisn)
+        ->get();
+
+        return view('siswa.index',['data_siswa'=>$data_siswa,"data_nilai"=>$data_nilai]);
     }
 
     /**

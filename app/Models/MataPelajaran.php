@@ -42,4 +42,9 @@ class MataPelajaran extends Model
     {
         return $this->hasMany(Nilai::class,'id_mapel');
     }
+
+    public function aturmatapelajaran()
+    {
+        return $this->hasMany(AturMataPelajaran::class,'id_atur_mata_pelajaran');
+    }
 }

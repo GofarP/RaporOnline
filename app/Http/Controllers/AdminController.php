@@ -7,6 +7,7 @@ use App\Models\Guru;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use App\Models\WaliKelas;
 use App\Enums\JenisKelamin;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
 use App\Http\Requests\PenempatanSiswaRequest;
 use App\Http\Requests\TahunAjaranAktifRequest;
+use App\Http\Requests\WaliKelasRequest;
 
 class AdminController extends Controller
 {
@@ -300,8 +302,7 @@ class AdminController extends Controller
 
         User::create($kredensial_siswa);
 
-        return redirect()->route('index_kredensial_guru')->with('success','Sukses Menambah Kredensial Baru');
-
+        return redirect()->route('index_kredensial_siswa')->with('success','Sukses Menambah Kredensial Baru');
 
     }
 
@@ -401,6 +402,12 @@ class AdminController extends Controller
         ->delete();
 
         return redirect()->route('index_data_mata_pelajaran')->with('success',"Sukses Menghapus Mata Pelajaran");
+    }
+
+
+    public function indexAturMataPelajaran()
+    {
+        
     }
 
 
@@ -780,4 +787,133 @@ class AdminController extends Controller
         return redirect()->route('index_data_penempatan_siswa')->with('success','Sukses Menghapus Data Penempatan Siswa');
     }
 
+
+    public function indexDataWaliKelas()
+    {
+        $data_guru=Guru::all();
+
+        $data_wali_kelas= WaliKelas::select('wali_kelas.id_wali_kelas','guru.nip', 'guru.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->join('guru', 'wali_kelas.nip', '=', 'guru.nip')
+        ->join('kelas', 'wali_kelas.id_kelas', '=', 'kelas.id_kelas')
+        ->join('tahun_ajaran', 'wali_kelas.id_tahun_ajaran', '=', 'tahun_ajaran.id_tahun_ajaran')
+        ->get();
+
+        return view('admin.DataWaliKelas.index',['data_guru'=>$data_guru,'data_wali_kelas'=>$data_wali_kelas]);
+    }
+
+
+    public function createDataWaliKelas(Guru $guru)
+    {
+        $data_kelas=Kelas::all();
+        $data_tahun_ajaran=TahunAjaran::all();
+
+        return view('admin.DataWaliKelas.tambah',['data_guru'=>$guru,
+        'data_kelas'=>$data_kelas,
+        'data_tahun_ajaran'=>$data_tahun_ajaran]);
+    }
+
+    public function storeDataWaliKelas(WaliKelasRequest $request)
+    {
+
+        $data_wali_kelas=$request->all();
+        $id_tahun_ajaran=$data_wali_kelas['id_tahun_ajaran'];
+        $id_kelas=$data_wali_kelas['id_kelas'];
+        $nip=$data_wali_kelas['nip'];
+
+        $validasi_wali_kelas=WaliKelas::where('id_tahun_ajaran','=',$id_tahun_ajaran)
+                                        ->where('id_kelas','=',$id_kelas)
+                                        ->first();
+
+        $validasi_guru=WaliKelas::where('nip','=',$nip)
+                                ->where('id_tahun_ajaran','=',$id_tahun_ajaran)
+                                ->first();
+
+        if($validasi_wali_kelas)
+        {
+            return back()->with('error',"Kelas Ini Sudah Mempunyai Wali Kelas");
+        }
+
+        else if($validasi_guru)
+        {
+            return back()->with('error',"Guru Ini Sudah Menjadi Wali Kelas Untuk Tahun Ajaran Ini");
+        }
+
+        else
+        {
+            WaliKelas::create($data_wali_kelas);
+            return redirect()->route('index_data_wali_kelas')->with('success',"Sukses Menambahkan Data Wali Kelas");
+         }
+
+    }
+
+
+    public function editDataWaliKelas(WaliKelas $walikelas)
+    {
+        $data_wali_kelas=Walikelas::select('wali_kelas.id_wali_kelas','guru.nip','guru.nama')
+                                ->join('guru','wali_kelas.nip','=','guru.nip')
+                                ->where("wali_kelas.id_wali_kelas",'=',$walikelas->id_wali_kelas)
+                                ->first();
+
+        $data_kelas=Kelas::all();
+        $data_tahun_ajaran=TahunAjaran::all();
+
+        return view('admin.DataWaliKelas.edit',['data_wali_kelas'=>$data_wali_kelas,
+        'data_tahun_ajaran'=>$data_tahun_ajaran, 'data_kelas'=>$data_kelas]);
+    }
+
+
+    public function updateDataWaliKelas(WaliKelas $walikelas,WaliKelasRequest $request)
+    {
+        $data_wali_kelas=$request->except('_token','_method');
+        $id_tahun_ajaran=$data_wali_kelas['id_tahun_ajaran'];
+        $id_kelas=$data_wali_kelas['id_kelas'];
+        $nip=$data_wali_kelas['nip'];
+
+        $validasi_wali_kelas=WaliKelas::where('id_tahun_ajaran','=',$id_tahun_ajaran)
+                                        ->where('id_kelas','=',$id_kelas)
+                                        ->first();
+
+        $validasi_guru=WaliKelas::where('nip','=',$nip)
+                                ->where('id_tahun_ajaran','=',$id_tahun_ajaran)
+                                ->first();
+
+        $validasi_kelas=WaliKelas::where('nip','=',$nip)
+                                ->where('id_tahun_ajaran','=',$id_tahun_ajaran)
+                                ->where('id_kelas','=',$id_kelas)
+                                ->first();
+
+
+        if($validasi_kelas)
+        {
+            return back()->with('error',"Guru Ini Sudah Menjadi Wali Dari Kelas Ini");
+        }
+
+        else if($validasi_wali_kelas)
+        {
+            return back()->with('error',"Kelas Ini Sudah Mempunyai Wali Kelas");
+        }
+
+        else if($validasi_guru)
+        {
+            return back()->with('error',"Guru Ini Sudah Menjadi Wali Kelas Untuk Tahun Ajaran Ini");
+        }
+
+
+        else
+        {
+            WaliKelas::where('id_wali_kelas','=',$walikelas->id_wali_kelas)->update($data_wali_kelas);
+            return redirect()->route('index_data_wali_kelas')->with('success',"Sukses Mengubah Data Wali Kelas");
+         }
+
+    }
+
+
+    public function deleteDataWaliKelas(WaliKelas $walikelas)
+    {
+        WaliKelas::where('id_wali_kelas',$walikelas->id_wali_kelas)->delete();
+
+        return redirect()->route('index_data_wali_kelas')->with('success','Sukses Menghapus Data Wali Kelas');
+    }
+
 }
+

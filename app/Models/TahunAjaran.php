@@ -44,4 +44,16 @@ class TahunAjaran extends Model
     {
         return $this->hasMany(Nilai::class,'id_tahun_ajaran');
     }
+
+    public function walikelas()
+    {
+        return $this->hasMany(walikelas::class,'id_wali_kelas');
+    }
+
+    public function aturmatapelajaran()
+    {
+        return $this->hasMany(AturMataPelajaran::class,'id_atur_mata_pelajaran');
+    }
+
+
 }

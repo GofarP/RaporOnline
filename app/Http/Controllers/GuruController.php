@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\WaliKelas;
 use Illuminate\Http\Request;
 use App\Models\DataMapelGuru;
 use App\Models\PenempatanSiswa;
+use App\Models\TahunAjaranAktif;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,16 +26,12 @@ class GuruController extends Controller
 
     public function index()
     {
-        // $data_siswa=PenempatanSiswa::select('siswa.nisn','siswa.nama','kelas.kelas','tahun_ajaran.id_tahun_ajaran')
-        // ->with(['siswa','tahunajaran','kelas'])
-        // ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
-        // ->join('tahun_ajaran','penempatan_siswa.id_tahun_ajaran','=','tahun_ajaran.id_tahun_ajaran')
-        // ->join('kelas','penempatan_siswa.id_kelas','=','kelas.id_kelas')
-        // ->get();
 
 
         $email_pengguna=Auth::user()->email;
         $data_guru=Guru::where('email','=',$email_pengguna)->first();
+
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
 
         $data_mapel_diampu=DataMapelGuru::select('mata_pelajaran_guru.*','guru.nama','mata_pelajaran.nama')
         ->with('matapelajaran','guru')
@@ -44,7 +42,11 @@ class GuruController extends Controller
 
         $data_guru=Guru::where('email','=',$email_pengguna)->first();
 
-        return view('guru.index',['data_mapel_diampu'=>$data_mapel_diampu,'data_guru'=>$data_guru]);
+        $is_wali_kelas=WaliKelas::where('nip','=',$data_guru->nip)
+                                ->where('id_tahun_ajaran','=',$data_tahun_ajaran_aktif->id_tahun_ajaran)
+                                ->first();
+
+        return view('guru.index',['data_mapel_diampu'=>$data_mapel_diampu,'data_guru'=>$data_guru,'is_wali_kelas'=>$is_wali_kelas]);
     }
 
     /**

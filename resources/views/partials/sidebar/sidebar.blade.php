@@ -68,6 +68,23 @@
                 </div>
             </li>
 
+
+                  <!-- Menu Wali Kelas -->
+                  <li class="nav-item  {{ Request::is('admin/walikelas*') ? 'active' : '' }}">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataWaliKelas"
+                        aria-expanded="true" aria-controls="collapseDataWaliKelas">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Wali Kelas</span>
+                    </a>
+                    <div id="collapseDataWaliKelas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Data Siswa:</h6>
+                            <a class="collapse-item" href="{{route('index_data_wali_kelas')}}">Lihat Data</a>
+                        </div>
+                    </div>
+                </li>
+
+
               <!-- Menu MataPelajaran -->
               <li class="nav-item  {{ Request::is('admin/matapelajaran*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataMapel"
@@ -80,6 +97,7 @@
                         <h6 class="collapse-header">Data Mata Pelajaran:</h6>
                         <a class="collapse-item" href="{{route('index_data_mata_pelajaran')}}">Lihat Data</a>
                         <a class="collapse-item" href="{{route('create_data_mata_pelajaran')}}">Tambah Data</a>
+                        <a class="collapse-item" href="{{route('index_atur_mata_pelajaran')}}">Atur Mata Pelajaran</a>
                     </div>
                 </div>
               </li>
@@ -117,6 +135,7 @@
                         </div>
                     </div>
                 </li>
+
 
 
 
@@ -193,11 +212,13 @@
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
 
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                        aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>Nilai Siswa</span>
-                    </a>
+                    {{-- @if($is_wali_kelas)
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>Wali Kelas</span>
+                        </a>
+                    @endif --}}
 
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">

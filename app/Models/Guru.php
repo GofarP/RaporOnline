@@ -22,4 +22,11 @@ class Guru extends Model
         return $this->hasMany(DataMapelGuru::class,'id_mapel_guru');
     }
 
+    public function walikelas()
+    {
+        return $this->hasMany(walikelas::class,'id_wali_kelas');
+    }
+
+
+
 }

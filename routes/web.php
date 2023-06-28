@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::put('matapelajaran/updatedatamatapelajaran/{matapelajaran}',[AdminController::class,'updateDataMataPelajaran'])->name('update_data_mata_pelajaran');
     Route::delete('matapelajaran/deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
 
+    Route::get('matapelajaran/aturmatapelajaran',[AdminController::class,'indexAturMataPelajaran'])->name('index_atur_mata_pelajaran');
+
     Route::get('tahunajaran/datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
     Route::get('tahunajaran/tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
     Route::post('tahunajaran/storedatatahunajaran',[AdminController::class,'storeDataTahunAjaran'])->name('store_data_tahun_ajaran');
@@ -107,10 +109,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::put('mapelguru/updatedatamapelguru/{mapelguru}',[AdminController::class,'updateDataMapelGuru'])->name('update_data_mapel_guru');
     Route::delete('mapelguru/deletedatamapelguru/{mapelguru}',[AdminController::class,'deleteDataPenempatanSiswa'])->name('destroy_data_mapel_guru');
 
-
+    Route::get('walikelas/datawalikelas',[AdminController::class,'indexDataWaliKelas'])->name('index_data_wali_kelas');
+    Route::get('walikelas/tambahdatawalikelas/{guru}',[AdminController::class,'createDataWaliKelas'])->name('create_data_wali_kelas');
+    Route::post('walikelas/storedatawalikelas/',[AdminController::class,'storeDataWaliKelas'])->name('store_data_wali_kelas');
+    Route::get('walikelas/editdatawalikelas/{walikelas}',[AdminController::class,'editDataWaliKelas'])->name('edit_data_wali_kelas');
+    Route::put('walikelas/updatedatawalikelas/{walikelas}',[AdminController::class,'updateDataWaliKelas'])->name('update_data_wali_kelas');
+    Route::delete('walikelas/deletedatawalikelas/{walikelas}',[AdminController::class,'deleteDataWaliKelas'])->name('destroy_data_wali_kelas');
 
     Route::post('logout',[LogOutController::class,'logout'])->name('logout');
-
 
 });
 

@@ -19,6 +19,10 @@ class NilaiController extends Controller
 {
     public function indexDataNilaiSiswa()
     {
+        $email_pengguna=Auth::user()->email;
+
+        $data_guru=Guru::where('email',$email_pengguna)->first();
+
         $data_penempatan_siswa=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
         ->with(['siswa','kelas','tahunajaran'])
         ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
@@ -31,6 +35,7 @@ class NilaiController extends Controller
         ->join('mata_pelajaran', 'nilai_master.id_mapel', '=', 'mata_pelajaran.id_mapel')
         ->join('tahun_ajaran', 'nilai_master.id_tahun_ajaran', '=', 'tahun_ajaran.id_tahun_ajaran')
         ->join('kelas', 'nilai_master.id_kelas', '=', 'kelas.id_kelas')
+        ->where('NIP',$data_guru->nip)
         ->get();
 
 
