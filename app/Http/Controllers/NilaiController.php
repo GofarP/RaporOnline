@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NilaiSiswaRequest;
-use App\Http\Requests\PenempatanSiswaRequest;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\Nilai;
 use App\Models\Siswa;
+use App\Models\WaliKelas;
 use Illuminate\Http\Request;
 use App\Models\DataMapelGuru;
 use App\Models\MataPelajaran;
 use App\Models\PenempatanSiswa;
+use App\Models\TahunAjaranAktif;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\NilaiSiswaRequest;
+use App\Http\Requests\PenempatanSiswaRequest;
 
 class NilaiController extends Controller
 {
@@ -22,6 +24,13 @@ class NilaiController extends Controller
         $email_pengguna=Auth::user()->email;
 
         $data_guru=Guru::where('email',$email_pengguna)->first();
+
+
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
+
+        $is_wali_kelas=WaliKelas::where('nip','=',$data_guru->nip)
+        ->where('id_tahun_ajaran','=',$data_tahun_ajaran_aktif->id_tahun_ajaran)
+        ->first();
 
         $data_penempatan_siswa=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
         ->with(['siswa','kelas','tahunajaran'])
@@ -40,7 +49,9 @@ class NilaiController extends Controller
 
 
 
-        return view('Guru.Nilai.index',['data_penempatan_siswa'=>$data_penempatan_siswa,'data_nilai'=>$data_nilai]);
+        return view('Guru.Nilai.index',['data_penempatan_siswa'=>$data_penempatan_siswa,
+        'data_nilai'=>$data_nilai,
+        'is_wali_kelas'=>$is_wali_kelas]);
     }
 
 
@@ -60,8 +71,18 @@ class NilaiController extends Controller
 
         $data_kelas=Kelas::where('id_kelas','=',$penempatansiswa->id_kelas)->first();
 
-        return view('Guru.Nilai.tambah',['data_penempatan_siswa'=>$penempatansiswa,
-        'data_mapel'=>$data_mapel_diampu, 'data_siswa'=>$data_siswa, 'data_kelas'=>$data_kelas]);
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
+
+        $is_wali_kelas=WaliKelas::where('nip','=',$data_guru->nip)
+        ->where('id_tahun_ajaran','=',$data_tahun_ajaran_aktif->id_tahun_ajaran)
+        ->first();
+
+        return view('Guru.Nilai.tambah',[
+        'data_penempatan_siswa'=>$penempatansiswa,
+        'data_mapel'=>$data_mapel_diampu,
+        'data_siswa'=>$data_siswa,
+        'data_kelas'=>$data_kelas,
+        'is_wali_kelas'=>$is_wali_kelas]);
     }
 
 
@@ -90,7 +111,7 @@ class NilaiController extends Controller
 
         if($check_data)
         {
-            return redirect()->back()->with('error','Nilai SUdah Ditambahkan untuk Siswa, MataPelajaran, Dan Kelas Ini.');
+            return redirect()->back()->with('error','Nilai Sudah Ditambahkan untuk Siswa, MataPelajaran, Dan Kelas Ini.');
         }
 
         else
@@ -109,9 +130,20 @@ class NilaiController extends Controller
 
         $data_kelas=Kelas::where('id_kelas',$nilai->id_kelas)->first();
 
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::where('id_tahun_ajaran_aktif','=',1)->first();
+
+        $email_pengguna=Auth::user()->email;
+        $data_guru=Guru::where('email','=',$email_pengguna)->first();
+
+        $is_wali_kelas=WaliKelas::where('nip','=',$data_guru->nip)
+        ->where('id_tahun_ajaran','=',$data_tahun_ajaran_aktif->id_tahun_ajaran)
+        ->first();
 
         return view('Guru.Nilai.edit',['data_mapel'=>$data_mapel,
-        'data_nilai'=>$nilai,'data_siswa'=>$data_siswa,'data_kelas'=>$data_kelas]);
+        'data_nilai'=>$nilai,'data_siswa'=>$data_siswa,
+        'data_kelas'=>$data_kelas,
+        'is_wali_kelas'=>$is_wali_kelas
+        ]);
 
     }
 
@@ -135,5 +167,11 @@ class NilaiController extends Controller
         Nilai::where('id_nilai_master',$nilai->id_nilai_master)->delete();
 
         return redirect()->route('index_data_nilai_siswa')->with('success','Sukses menghapus data nilai siswa');
+    }
+
+    public function indexWaliKelas()
+    {
+        $data_nilai=
+        return view('Guru.WaliKelas.index');
     }
 }

@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], function(){
+Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin'], function(){
 
     Route::get('/home',[HomeController::class, 'index'])->name('admin_home');
 
@@ -71,6 +71,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::delete('matapelajaran/deletedatamatapelajaran/{matapelajaran}',[AdminController::class,'destroyDataMataPelajaran'])->name('destroy_data_mata_pelajaran');
 
     Route::get('matapelajaran/aturmatapelajaran',[AdminController::class,'indexAturMataPelajaran'])->name('index_atur_mata_pelajaran');
+    Route::get('matapelajaran/createaturmatapelajaran/{matapelajaran}',[AdminController::class,'createAturMataPelajaran'])->name('create_atur_mata_pelajaran');
+    Route::post('matapelajaran/storeaturmatapelajaran',[AdminController::class,'storeAturMataPelajaran'])->name('store_atur_mata_pelajaran');
+    Route::get('matapelajaran/editaturmatapelajaran/{aturmatapelajaran}',[AdminController::class,'editAturMataPelajaran'])->name('edit_atur_mata_pelajaran');
+    Route::put('matapelajaran/updateaturmatapelajaran/{matapelajaran}',[AdminController::class,'updateAturMataPelajaran'])->name('update_atur_mata_pelajaran');
+    Route::delete('matapelajaran/destroyaturmatapelajaran/{matapelajaran}',[AdminController::class,'destroyAturMataPelajaran'])->name('destroy_atur_mata_pelajaran');
+
 
     Route::get('tahunajaran/datatahunajaran',[AdminController::class,'indexDataTahunAjaran'])->name('index_data_tahun_ajaran');
     Route::get('tahunajaran/tambahdatatahunajaran',[AdminController::class,'createDataTahunAjaran'])->name('create_data_tahun_ajaran');
@@ -116,29 +122,31 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkRole:Admin']], functio
     Route::put('walikelas/updatedatawalikelas/{walikelas}',[AdminController::class,'updateDataWaliKelas'])->name('update_data_wali_kelas');
     Route::delete('walikelas/deletedatawalikelas/{walikelas}',[AdminController::class,'deleteDataWaliKelas'])->name('destroy_data_wali_kelas');
 
-    Route::post('logout',[LogOutController::class,'logout'])->name('logout');
-
 });
 
 
-Route::group(['prefix' => 'guru',],function(){
+Route::group(['middleware' => ['auth', 'role:Guru'],'prefix' => 'guru'],function(){
     Route::get('home',[GuruController::class, 'index'])->name('guru_home');
 
     Route::get('nilaisiswa/datanilaisiswa',[NilaiController::class,'indexDataNilaiSiswa'])->name('index_data_nilai_siswa');
 
-    Route::get('nilaisiswa/tambahnilaisiswa/{penempatansiswa}',[NilaiController::class,'createDataNilaiSiswa'])->name('create_data_nilai_siswa');
+    Route::get('nilaisiswa/tambahnilaisiswa/{penempatansiswa}',[NilaiController::class,'createDataNilaiSiswa'])->name('guru_create_data_nilai_siswa');
 
-    Route::post('nilaisiswa/storenilaisiswa/{penempatansiswa}',[NilaiController::class,'storeDataNilaiSiswa'])->name('store_data_nilai_siswa');
+    Route::post('nilaisiswa/storenilaisiswa/{penempatansiswa}',[NilaiController::class,'storeDataNilaiSiswa'])->name('guru_store_data_nilai_siswa');
 
-    Route::get('nilaisisiswa/editnilaisiswa/{nilai}',[NilaiController::class, 'editDataNilaiSiswa'])->name('edit_data_nilai_siswa');
+    Route::get('nilaisisiswa/editnilaisiswa/{nilai}',[NilaiController::class, 'editDataNilaiSiswa'])->name('guru_edit_data_nilai_siswa');
 
-    Route::put('nilaisiswa/updatedatanilaisiswa/{nilai}',[NilaiController::class,'updateDataNilaiSiswa'])->name('update_data_nilai_siswa');
+    Route::put('nilaisiswa/updatedatanilaisiswa/{nilai}',[NilaiController::class,'updateDataNilaiSiswa'])->name('guru_update_data_nilai_siswa');
 
-    Route::delete('nilaisiswa/deletenilaisiswa/{nilai}',[NilaiController::class,'destroyDataNilaiSiswa'])->name('destroy_data_nilai_siswa');
+    Route::delete('nilaisiswa/deletenilaisiswa/{nilai}',[NilaiController::class,'destroyDataNilaiSiswa'])->name('guru_destroy_data_nilai_siswa');
+
+    Route::get('walikelas/nilaisiswa/',[NilaiController::class,'indexWaliKelas'])->name('index_wali_kelas');
 
 });
 
-
-Route::group(['prefix'=>'siswa'],function(){
+Route::group(['middleware' => ['auth', 'role:Siswa'], 'prefix'=>'siswa'],function(){
     Route::get('home',[SiswaController::class, 'index'])->name('siswa_home');
 });
+
+Route::post('logout',[LogOutController::class,'logout'])->name('logout');
+

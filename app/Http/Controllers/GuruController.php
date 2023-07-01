@@ -9,6 +9,7 @@ use App\Models\DataMapelGuru;
 use App\Models\PenempatanSiswa;
 use App\Models\TahunAjaranAktif;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
 
 class GuruController extends Controller
@@ -21,12 +22,11 @@ class GuruController extends Controller
 
      public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('role:Guru');
     }
 
     public function index()
     {
-
 
         $email_pengguna=Auth::user()->email;
         $data_guru=Guru::where('email','=',$email_pengguna)->first();
@@ -56,7 +56,7 @@ class GuruController extends Controller
      */
     public function create()
     {
-        return "Hello";
+        //
     }
 
     /**

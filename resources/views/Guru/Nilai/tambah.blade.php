@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <form method="POST" action="{{route('store_data_nilai_siswa',$data_penempatan_siswa->id_penempatan_siswa)}}">
+            <form method="POST" action="{{route('guru_store_data_nilai_siswa',$data_penempatan_siswa->id_penempatan_siswa)}}">
                 @csrf
 
                 <div class="mb-3">

@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <form method="POST" action="{{route('update_data_nilai_siswa',$data_nilai->id_nilai_master)}}">
+            <form method="POST" action="{{route('guru_update_data_nilai_siswa',$data_nilai->id_nilai_master)}}">
                 @csrf
                 @method('PUT')
 

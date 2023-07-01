@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('id_mata_pelajaran');
             $table->string('id_kelas');
             $table->string('id_tahun_ajaran');
-
+            $table->timestamps();
 
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')
             ->on('mata_pelajaran');
