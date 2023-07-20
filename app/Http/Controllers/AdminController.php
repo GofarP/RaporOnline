@@ -7,6 +7,7 @@ use App\Models\Guru;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use App\Models\Nilai;
 use App\Models\WaliKelas;
 use App\Enums\JenisKelamin;
 use App\Http\Requests\AturMataPelajaranRequest;
@@ -494,13 +495,15 @@ class AdminController extends Controller
     {
         $data_tahun_ajaran = TahunAjaran::all();
 
-        $data_tahun_ajaran_aktif = TahunAjaranAktif::select('tahun_ajaran.tahun_ajaran')
+        $data_tahun_ajaran_aktif = TahunAjaranAktif::select('tahun_ajaran.tahun_ajaran','tahun_ajaran_aktif.semester')
             ->with('tahunajaran')
             ->join('tahun_ajaran', 'tahun_ajaran.id_tahun_ajaran', '=', 'tahun_ajaran_aktif.id_tahun_ajaran')
             ->where('tahun_ajaran_aktif.id_tahun_ajaran_aktif', '=', 1)->first();
 
 
-        return view('admin.DataTahunAjaran.index', ['tahun_ajaran' => $data_tahun_ajaran], ['data_tahun_ajaran_aktif' => $data_tahun_ajaran_aktif]);
+        return view('admin.DataTahunAjaran.index', ['tahun_ajaran' => $data_tahun_ajaran,
+        'data_tahun_ajaran_aktif' => $data_tahun_ajaran_aktif,
+        ]);
     }
 
     public function createDataTahunAjaran()
@@ -828,10 +831,7 @@ class AdminController extends Controller
     {
         $data_penempatan = $request->except(['_method', '_token']);
 
-        $tahun_ajaran_aktif = TahunAjaranAktif::where('id_tahun_ajaran_aktif', '=', 1)->first();
-
-
-        $data_penempatan['id_tahun_ajaran'] = $tahun_ajaran_aktif->id_tahun_ajaran;
+        $data_penempatan['id_tahun_ajaran'] = $data_penempatan['id_tahun_ajaran'];
 
         // $cek_siswa=PenempatanSiswa::where('nisn','=',$data_penempatan['nisn'])
         // ->where('id_tahun_ajaran','=',$data_penempatan['id_tahun_ajaran'])
@@ -961,5 +961,64 @@ class AdminController extends Controller
         WaliKelas::where('id_wali_kelas', $walikelas->id_wali_kelas)->delete();
 
         return redirect()->route('index_data_wali_kelas')->with('success', 'Sukses Menghapus Data Wali Kelas');
+    }
+
+
+    public function indexDataNilaiSiswa()
+    {
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::first();
+
+        $data_nilai = Nilai::select('nilai_master.*', 'siswa.nama AS nama_siswa',
+        'mata_pelajaran.nama AS nama_mapel', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->join('siswa', 'nilai_master.nisn', '=', 'siswa.nisn')
+        ->join('mata_pelajaran', 'nilai_master.id_mapel', '=', 'mata_pelajaran.id_mapel')
+        ->join('tahun_ajaran', 'nilai_master.id_tahun_ajaran', '=', 'tahun_ajaran.id_tahun_ajaran')
+        ->join('kelas', 'nilai_master.id_kelas', '=', 'kelas.id_kelas')
+        ->get();
+
+        $data_penempatan_siswa=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
+        ->with(['siswa','kelas','tahunajaran'])
+        ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
+        ->join('kelas','penempatan_siswa.id_kelas','=','kelas.id_kelas')
+        ->join('tahun_ajaran','penempatan_siswa.id_tahun_ajaran','=','tahun_ajaran.id_tahun_ajaran')
+        ->where('tahun_ajaran.id_tahun_ajaran','=',$data_tahun_ajaran_aktif->id_tahun_ajaran)
+        ->get();
+
+        return view('admin.DataNilaiSiswa.index',['data_nilai'=>$data_nilai,'data_penempatan_siswa'=>$data_penempatan_siswa]);
+    }
+
+    public function createDataNilaiSiswa(PenempatanSiswa $penempatansiswa)
+    {
+        $data_tahun_ajaran=TahunAjaranAktif::first();
+        $data_mapel=MataPelajaran::get();
+
+        return view('admin.DataNilaiSiswa.tambah',['data_tahun_ajaran'=>$data_tahun_ajaran,
+         'data_mapel'=>$data_mapel,
+         'data_siswa'=>$penempatansiswa
+        ]);
+    }
+
+    public function storeDataNilaiSiswa()
+    {
+
+    }
+
+
+    public function editDataNilaiSiswa()
+    {
+
+    }
+
+
+    public function updateDataNilaiSiswa()
+    {
+
+    }
+
+    public function deleteDataNilaiSiswa(Nilai $nilaisiswa)
+    {
+        Nilai::where('id_nilai_master','=',$nilaisiswa->id_nilai_master)->delete();
+
+        return redirect()->route('admin_index_data_nilai_siswa')->with('success','Berhasil Menghapus Nilai Siswa');
     }
 }

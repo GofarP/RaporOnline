@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('id_mapel');
             $table->string('id_kelas');
             $table->string('id_tahun_ajaran');
+            $table->string('semester');
             $table->string('nilai');
             $table->timestamps();
 

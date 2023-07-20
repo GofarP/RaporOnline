@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
+use App\Models\MataPelajaran;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class HomeController extends Controller
 {
@@ -23,7 +27,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index.index');
+        $data_jumlah_guru=Guru::count();
+        $data_jumlah_siswa=Siswa::count();
+        $data_jumlah_mapel=MataPelajaran::count();
+
+        return view('admin.index.index',['data_jumlah_guru'=>$data_jumlah_guru,
+        'data_jumlah_siswa'=>$data_jumlah_siswa,
+        'data_jumlah_mapel'=>$data_jumlah_mapel
+        ]);
     }
 
 

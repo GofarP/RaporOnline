@@ -59,6 +59,24 @@
                     </select>
                 </div>
 
+
+                <div class="mb-3">
+                    <label for="id_kelas" class="mt-3 mb-2">Pilih Tahun Ajaran</label>
+                    <select class="form-control @error('id_tahun_ajaran') is-invalid @enderror" name="id_tahun_ajaran" id="id_kelas">
+                       @foreach ($data_tahun_ajaran as $tahun_ajaran)
+                         <option value="{{$tahun_ajaran->id_tahun_ajaran}}">{{$tahun_ajaran->tahun_ajaran}}</option>
+                       @endforeach
+
+                       @error('id_kelas')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                    </select>
+                </div>
+
+
                 <div class="mb-3">
                     <input type="submit" class="form-control btn btn-success mt-3" value="Update Penempatan Siswa" style="border-radius:100px">
                 </div>

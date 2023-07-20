@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tahun_ajaran_aktif',function (Blueprint $table) {
             $table->string('id_tahun_ajaran_aktif')->primary();
             $table->string('id_tahun_ajaran');
+            $table->string('semester');
             $table->timestamps();
 
         });

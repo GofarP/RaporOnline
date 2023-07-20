@@ -28,6 +28,10 @@
                 @endif
             </div>
 
+            <div class="mb-3 mt-3">
+                <h3>Semester Aktif:{{ $data_tahun_ajaran_aktif->semester}} </h3>
+            </div>
+
             <a href="{{route('create_data_tahun_ajaran')}}" class="btn btn-success float-right mb-3">Tambah Tahun Ajaran</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

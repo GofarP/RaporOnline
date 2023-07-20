@@ -120,8 +120,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Nilai Siswa:</h6>
-                        <a class="collapse-item" href="">Lihat Nilai Siswa</a>
-                        <a class="collapse-item" href="cards.html">Tambah Nilai Siswa</a>
+                        <a class="collapse-item" href="{{route('admin_index_data_nilai_siswa')}}">Lihat Nilai Siswa</a>
                     </div>
                 </div>
             </li>
@@ -244,7 +243,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Nilai Siswa:</h6>
-                        <a class="collapse-item" href="{{ route('index_data_nilai_siswa') }}">Data Nilai Siswa</a>
+                        <a class="collapse-item" href="{{ route('index_wali_kelas') }}">Data Nilai Siswa</a>
                     </div>
                 </div>
 

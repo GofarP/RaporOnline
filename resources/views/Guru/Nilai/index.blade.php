@@ -30,18 +30,21 @@
                                 <th>Mata Pelajaran</th>
                                 <th>Nilai</th>
                                 <th>Tahun Ajaran</th>
+                                <th>Semester</th>
                                 <th>Action</th>
                             </tr>
 
                             <tbody>
 
                             @foreach ($data_nilai as $data )
+                            <tr>
                                 <td>{{$data->NISN}}</td>
                                 <td>{{$data->nama_siswa}}</td>
                                 <td>{{$data->kelas}}</td>
                                 <td>{{$data->nama_mapel}}</td>
                                 <td>{{$data->nilai}}</td>
                                 <td>{{$data->tahun_ajaran}}</td>
+                                <td>{{$data->semester}}</td>
                                 <td>
                                     <a href="{{route('guru_edit_data_nilai_siswa',$data->id_nilai_master)}}" class="btn btn-warning">Edit Nilai</a>
                                     <br>
@@ -52,6 +55,7 @@
                                         <button class="btn btn-danger mt-3" onclick="return confirm('Apakah Anda Ingin Menghapus Data Nilai Siswa Ini?')" >Hapus Nilai</button>
                                     </form>
                                 </td>
+                            </tr>
                             @endforeach
                             </tbody>
                         </thead>
@@ -80,8 +84,9 @@
                             </tr>
 
                             <?php $no=1; ?>
-                            @foreach ($data_penempatan_siswa as $data )
                             <tbody>
+                            @foreach ($data_penempatan_siswa as $data)
+                            <tr>
                                 <td>{{$no}}</td>
                                 <td>{{$data->nisn}}</td>
                                 <td>{{$data->nama}}</td>
@@ -90,18 +95,16 @@
                                 <td>
                                     <a href="{{route('guru_create_data_nilai_siswa',$data->id_penempatan_siswa)}}" class="btn btn-success mb-2">Tambah Nilai</a>
                                 </td>
-                            </tbody>
+
                             <?php $no++ ?>
                             @endforeach
+                        </tbody>
                         </thead>
                     </table>
                 </div>
             </div>
 
         </div>
-
-
-
 
     @endsection
 
