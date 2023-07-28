@@ -100,10 +100,12 @@ Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin'], func
 
     Route::get('nilaisiswa/datanilaisiswa',[AdminController::class,'indexDataNilaiSiswa'])->name('admin_index_data_nilai_siswa');
     Route::get('nilaisiswa/tambahdatanilaisiswa/{penempatansiswa}',[AdminController::class,'createDataNilaiSiswa'])->name('admin_create_data_nilai_siswa');
+    Route::get('nilaisiswa/dataguru/{idmapel}',[AdminController::class,'dataGuru'])->name('dataGuru');
     Route::post('nilaisiswa/storedatanilaisiswa',[AdminController::class,'storeDataNilaiSiswa'])->name('admin_store_data_nilai_siswa');
-    Route::get('nilaisiswa/editdatanilaisiswa/{penempatansiswa}',[AdminController::class,'editDataNilaiSiswa'])->name('admin_edit_data_nilai_siswa');
-    Route::put('nilaisiswa/updatedatanilaisiswa',[AdminController::class,'updatedataNilaiSiswa'])->name('admin_update_data_nilai_siswa');
-    Route::delete('nilaisiswa/deletedatanilaisiswa',[AdminController::class,'deleteDataNilaiSiswa'])->name('admin_delete_data_nilai_siswa');
+    Route::get('nilaisiswa/editdatanilaisiswa/{nilai}',[AdminController::class,'editDataNilaiSiswa'])->name('admin_edit_data_nilai_siswa');
+    Route::put('nilaisiswa/updatedatanilaisiswa/{nilai}',[AdminController::class,'updatedataNilaiSiswa'])->name('admin_update_data_nilai_siswa');
+    Route::delete('nilaisiswa/deletedatanilaisiswa',[AdminController::class,'deleteDataNilaiSiswa'])->name('admin_destroy_data_nilai_siswa');
+
 
     Route::get('penempatan/datapenempatansiswa',[AdminController::class,'indexDataPenempatanSiswa'])->name('index_data_penempatan_siswa');
     Route::get('penempatan/tambahdatapenempatansiswa/{siswa}',[AdminController::class,'createDataPenempatanSiswa'])->name('create_data_penempatan_siswa');
@@ -149,6 +151,7 @@ Route::group(['middleware' => ['auth', 'role:Guru'],'prefix' => 'guru'],function
     Route::get('walikelas/sertifikat/{nisn}/{ranking}',[WaliKelasController::class,'cetakSertifikat'])->name('cetak_sertifikat');
 
     Route::get('walikelas/rapor/{nisn}',[WalikelasController::class,'cetakRapor'])->name('cetak_rapor');
+
 
 });
 

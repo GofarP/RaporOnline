@@ -46,9 +46,9 @@
                             <td>{{$data->tahun_ajaran}}</td>
                             <td>{{$data->semester}}</td>
                             <td>
-                                <a href="{{route('guru_edit_data_nilai_siswa',$data->id_nilai_master)}}" class="btn btn-warning">Edit Nilai</a>
+                                <a href="{{route('admin_edit_data_nilai_siswa',$data->id_nilai_master)}}" class="btn btn-warning">Edit Nilai</a>
                                 <br>
-                                <form action="{{route('guru_destroy_data_nilai_siswa',$data->id_nilai_master)}}"
+                                <form action="{{route('admin_destroy_data_nilai_siswa',$data->id_nilai_master)}}"
                                     method="POST"  class="d-inline">
                                     @csrf
                                     @method("DELETE")
@@ -96,7 +96,7 @@
                             <td>
                                 <a href="{{route('admin_create_data_nilai_siswa',$data->id_penempatan_siswa)}}" class="btn btn-success mb-2">Tambah Nilai</a>
                             </td>
-
+                        </tr>
                         <?php $no++ ?>
                         @endforeach
                     </tbody>

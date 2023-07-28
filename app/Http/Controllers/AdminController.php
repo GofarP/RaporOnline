@@ -30,6 +30,7 @@ use App\Http\Requests\TahunAjaranRequest;
 use App\Http\Requests\DataMapelGuruRequest;
 use App\Http\Requests\KredensialGuruRequest;
 use App\Http\Requests\KredensialSiswaRequest;
+use App\Http\Requests\NilaiSiswaRequest;
 use App\Http\Requests\PenempatanSiswaRequest;
 use App\Http\Requests\TahunAjaranAktifRequest;
 use App\Http\Requests\WaliKelasRequest;
@@ -976,6 +977,7 @@ class AdminController extends Controller
         ->join('kelas', 'nilai_master.id_kelas', '=', 'kelas.id_kelas')
         ->get();
 
+
         $data_penempatan_siswa=PenempatanSiswa::select('penempatan_siswa.*', 'siswa.nama', 'kelas.kelas', 'tahun_ajaran.tahun_ajaran')
         ->with(['siswa','kelas','tahunajaran'])
         ->join('siswa','penempatan_siswa.nisn','=','siswa.nisn')
@@ -989,29 +991,99 @@ class AdminController extends Controller
 
     public function createDataNilaiSiswa(PenempatanSiswa $penempatansiswa)
     {
-        $data_tahun_ajaran=TahunAjaranAktif::first();
-        $data_mapel=MataPelajaran::get();
+        $data_tahun_ajaran=TahunAjaranAktif::with('tahunajaran')->first();
+        $data_mapel=AturMataPelajaran::where('id_kelas','=',$penempatansiswa->id_kelas)
+        ->join("mata_pelajaran",'mata_pelajaran.id_mapel','=','atur_mata_pelajaran.id_mata_pelajaran')
+        ->get();
+        $data_siswa=Siswa::where('nisn','=',$penempatansiswa->nisn)->first();
 
         return view('admin.DataNilaiSiswa.tambah',['data_tahun_ajaran'=>$data_tahun_ajaran,
          'data_mapel'=>$data_mapel,
-         'data_siswa'=>$penempatansiswa
+         'data_siswa'=>$data_siswa
         ]);
     }
 
-    public function storeDataNilaiSiswa()
+    public function dataGuru($idmapel)
     {
+        $data_guru=DataMapelGuru::where('id_mapel','=',$idmapel)
+        ->join('guru','guru.nip','=','mata_pelajaran_guru.nip')
+        ->get();
+
+        return response()->json($data_guru);
+    }
+
+    public function storeDataNilaiSiswa(NilaiSiswaRequest $request)
+    {
+        $data_nilai=$request->all();
+
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::first();
+
+        $data_kelas=PenempatanSiswa::where('nisn','=',$request->nisn)->first();
+
+        $data_nilai['id_tahun_ajaran']=$data_tahun_ajaran_aktif->id_tahun_ajaran;
+        $data_nilai['id_kelas']=$data_kelas->id_kelas;
+        $data_nilai['semester']=$data_tahun_ajaran_aktif->semester;
+
+
+        $conditions=[
+            ['nip',$data_nilai['nip']],
+            ['nisn',$data_nilai['nisn']],
+            ['id_mapel',$data_nilai['id_mapel']],
+            ['id_kelas',$data_nilai['id_kelas']],
+            ['id_tahun_ajaran',$data_nilai['id_tahun_ajaran']],
+            ['semester',$data_nilai['semester']]
+        ];
+
+        $check_data=Nilai::where($conditions)->first();
+
+        if($check_data)
+        {
+            return redirect()->back()->with('error','Nilai Sudah Ditambahkan untuk Siswa, MataPelajaran, Tahun Ajaran, Dan Kelas Ini.');
+        }
+
+        else
+        {
+            Nilai::create($data_nilai);
+            return redirect()->route('admin_index_data_nilai_siswa')->with('success','Nilai Berhasil Ditambahkan Untuk Siswa Ini.');
+        }
 
     }
 
 
-    public function editDataNilaiSiswa()
+    public function editDataNilaiSiswa(Nilai $nilai)
     {
+        $data_tahun_ajaran=TahunAjaranAktif::with('tahunajaran')->first();
+        $data_mapel=AturMataPelajaran::where('id_kelas','=',$nilai->id_kelas)
+        ->join("mata_pelajaran",'mata_pelajaran.id_mapel','=','atur_mata_pelajaran.id_mata_pelajaran')
+        ->get();
+        $data_siswa=Siswa::where('nisn','=',$nilai->NISN)->first();
 
+        return view('admin.DataNilaiSiswa.edit',['data_tahun_ajaran'=>$data_tahun_ajaran,
+         'data_mapel'=>$data_mapel,
+         'data_siswa'=>$data_siswa,
+         'data_nilai'=>$nilai
+        ]);
     }
 
 
-    public function updateDataNilaiSiswa()
+    public function updateDataNilaiSiswa(NilaiSiswaRequest $request)
     {
+        $data_nilai=$request->except(['_method','_token']);
+
+        $data_tahun_ajaran_aktif=TahunAjaranAktif::first();
+
+        $data_kelas=PenempatanSiswa::where('nisn','=',$request->nisn)->first();
+
+        $data_nilai['id_tahun_ajaran']=$data_tahun_ajaran_aktif->id_tahun_ajaran;
+
+        $data_nilai['semester']=$data_tahun_ajaran_aktif->semester;
+
+        $data_nilai['id_kelas']=$data_kelas->id_kelas;
+
+
+        Nilai::where('id_nilai_master', '=', $data_nilai['id_nilai_master'])->update($data_nilai);
+
+        return redirect()->route('admin_index_data_nilai_siswa')->with('success','Berhasil Mengubah Nilai Siswa');
 
     }
 
